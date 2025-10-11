@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClassNote AI - Mobile</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        background: #f0f0f0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+      }
+      
+      #mobile-frame {
+        width: 393px;
+        height: 852px;
+        background: black;
+        border: 8px solid #333;
+        border-radius: 25px;
+        box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        overflow: hidden;
+        position: relative;
+      }
+      
+      /* iPhone notch */
+      #mobile-frame::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 150px;
+        height: 30px;
+        background: black;
+        border-radius: 0 0 15px 15px;
+        z-index: 1000;
+      }
+      
+      #root {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+        background: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="mobile-frame">
+      <div id="root"></div>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
