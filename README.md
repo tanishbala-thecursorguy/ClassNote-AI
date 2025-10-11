@@ -1,4 +1,4 @@
-# ClassNote AI Monochrome Design
+  # ClassNote AI Monochrome Design
 
 AI-powered lecture recording and transcription app with a beautiful monochrome UI. Record lectures, automatically transcribe them with Whisper AI, and access your notes anywhere.
 

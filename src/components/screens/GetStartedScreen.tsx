@@ -165,28 +165,85 @@ export function AnomalousMatterHero({
   return (
     <section
       role="banner"
-      className="relative w-full h-screen text-[hsl(var(--foreground))] overflow-hidden"
-      style={{ backgroundColor: '#000000' }}
+      className="relative w-full h-screen overflow-hidden"
+      style={{ 
+        backgroundColor: '#000000',
+        fontFamily: 'Inter, sans-serif',
+        margin: 0,
+        padding: 0
+      }}
     >
-      <Suspense fallback={<div className="w-full h-full" style={{ backgroundColor: '#000000' }} />}>
-        <GenerativeArtScene />
-      </Suspense>
-
-      <div className="absolute inset-0 z-10" style={{ background: 'linear-gradient(to top, #000000, rgba(0,0,0,0.7), transparent)' }} />
-
-      <div className="relative z-20 flex flex-col items-center justify-center h-full pt-32 md:pt-40 text-center">
-        <div className="max-w-3xl px-4 animate-fade-in-long">
-          <h1 className="text-xl font-bold font-sans tracking-widest text-gray-300 uppercase mb-4">
-            {title}
-          </h1>
-          <p className="mt-4 text-5xl md:text-7xl font-bold leading-tight text-white mb-6">
-            {subtitle}
-          </p>
-          <p className="mt-6 max-w-xl mx-auto text-2xl font-bold leading-relaxed text-gray-300">
-            {description}
-          </p>
-        </div>
+      {/* Mesh container stays behind text */}
+      <div className="mesh" style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 1
+      }}>
+        <Suspense fallback={<div className="w-full h-full" style={{ backgroundColor: '#000000' }} />}>
+          <GenerativeArtScene />
+        </Suspense>
       </div>
+
+      {/* Text container overlays mesh - centered exactly in middle */}
+      <div className="text-overlay" style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 10,
+        textAlign: 'center'
+      }}>
+        {/* First line - ClassNote AI (app name) */}
+        <h2 style={{
+          color: '#F8F8F8',
+          fontSize: '1.5rem',
+          fontWeight: 500,
+          opacity: 0.95,
+          textShadow: '0 0 10px rgba(255, 255, 255, 0.4), 0 0 20px rgba(255, 255, 255, 0.2)',
+          marginBottom: '10px',
+          margin: 0
+        }}>
+          {title}
+        </h2>
+        
+        {/* Main quote */}
+        <h1 style={{
+          color: '#FFFFFF',
+          fontSize: '2rem',
+          fontWeight: 600,
+          lineHeight: 1.4,
+          textShadow: '0 0 12px rgba(255, 255, 255, 0.7), 0 0 25px rgba(255, 255, 255, 0.4)',
+          filter: 'brightness(1.3)',
+          margin: 0
+        }}>
+          {subtitle}
+        </h1>
+        
+        {/* Last line - Record. Transcribe. Percept. Stride. (pure white) */}
+        <p style={{
+          color: '#FFFFFF',
+          fontSize: '1rem',
+          fontWeight: 400,
+          marginTop: '14px',
+          textShadow: '0 0 10px rgba(255, 255, 255, 0.4), 0 0 25px rgba(255, 255, 255, 0.25)',
+          filter: 'brightness(1.2) contrast(1.2)',
+          margin: 0
+        }}>
+          {description}
+        </p>
+      </div>
+
+      {/* Add CSS animation keyframes */}
+      <style jsx>{`
+        @keyframes softGlow {
+          0% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.6); }
+          50% { text-shadow: 0 0 25px rgba(255, 255, 255, 0.9); }
+          100% { text-shadow: 0 0 15px rgba(255, 255, 255, 0.6); }
+        }
+      `}</style>
     </section>
   );
 }
