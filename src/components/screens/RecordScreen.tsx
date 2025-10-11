@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { ArrowLeft, Mic, Battery, Volume2, Tag, Camera } from "lucide-react";
 import { RecordButton } from "../classnote/RecordButton";
 import { Button } from "../ui/button";

@@ -5,9 +5,9 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8001";
-const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL || "https://ovypzuizenaknyntsnvb.supabase.co";
-const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92eXB6dWl6ZW5ha255bnRzbnZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAwMjczODgsImV4cCI6MjA3NTYwMzM4OH0.i-m1zTfr01xjA93UgP6N7qdAXPSCicEr75TFGiNiWas";
+const API_URL = (import.meta as any).env?.VITE_API_URL || "http://localhost:8001";
+const SUPABASE_URL = (import.meta as any).env?.VITE_SUPABASE_URL || "https://ovypzuizenaknyntsnvb.supabase.co";
+const SUPABASE_ANON_KEY = (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im92eXB6dWl6ZW5ha255bnRzbnZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjAwMjczODgsImV4cCI6MjA3NTYwMzM4OH0.i-m1zTfr01xjA93UgP6N7qdAXPSCicEr75TFGiNiWas";
 
 // Initialize Supabase client
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);

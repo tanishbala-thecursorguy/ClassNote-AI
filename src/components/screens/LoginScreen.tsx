@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button } from '@/components/ui/button';
+import { Button } from '../ui/button';
 import { ChevronLeftIcon, Building2Icon, Grid2x2PlusIcon } from 'lucide-react';
-import { Particles } from '@/components/ui/particles';
+import { Particles } from '../ui/particles';
 
 interface LoginScreenProps {
   onBack: () => void;

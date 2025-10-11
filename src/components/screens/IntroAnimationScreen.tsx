@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import VaporizeTextCycle, { Tag } from "../ui/vapour-text-effect";
 
 interface IntroAnimationScreenProps {

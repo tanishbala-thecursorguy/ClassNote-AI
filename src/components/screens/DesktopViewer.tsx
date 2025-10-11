@@ -245,15 +245,15 @@ export function DesktopViewer({ lectures, onNewRecording }: DesktopViewerProps) 
             <TabsContent value="transcript" className="p-8 mt-0">
               <div className="max-w-4xl mx-auto">
                 <div className="space-y-1">
-                  {transcriptData.map((item, index) => (
-                    // @ts-ignore - key prop is handled by React
-                    <TranscriptRow 
-                      key={index} 
-                      timestamp={item.timestamp} 
-                      text={item.text} 
-                      marker={item.marker} 
-                    />
-                  ))}
+                  {transcriptData.map((item, index) => {
+                    const { timestamp, text, marker } = item;
+                    return React.createElement(TranscriptRow, {
+                      key: index,
+                      timestamp,
+                      text,
+                      marker
+                    });
+                  })}
                 </div>
               </div>
             </TabsContent>
