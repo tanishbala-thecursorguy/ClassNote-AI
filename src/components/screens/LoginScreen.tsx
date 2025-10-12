@@ -37,14 +37,6 @@ export function LoginScreen({ onBack, onLogin }: LoginScreenProps) {
 						<Grid2x2PlusIcon className="size-6 text-white" />
 						<p className="text-xl font-semibold text-white">ClassNote AI</p>
 					</div>
-					<div className="flex flex-col space-y-1">
-						<h1 className="font-heading text-2xl font-bold tracking-wide text-white">
-							Login to Organisation
-						</h1>
-						<p className="text-gray-400 text-base">
-							Register My Organisation
-						</p>
-					</div>
 					<div className="space-y-2">
 						<Button type="button" size="lg" variant="outline" className="w-full !bg-white !text-black hover:!bg-gray-100 !border-gray-200" onClick={onLogin}>
 							<Building2Icon className="me-8 size-4 !text-black" />
@@ -57,19 +49,19 @@ export function LoginScreen({ onBack, onLogin }: LoginScreenProps) {
 					</div>
 					<p className="text-gray-400 mt-8 text-sm">
 						By clicking continue, you agree to our{' '}
-						<a
-							href="#"
-							className="hover:text-blue-400 underline underline-offset-4"
+						<button
+							onClick={() => console.log('Terms of Service clicked')}
+							className="bg-blue-900 text-blue-300 hover:bg-blue-800 hover:text-blue-200 px-2 py-1 rounded text-sm font-medium transition-colors border border-blue-700"
 						>
 							Terms of Service
-						</a>{' '}
+						</button>{' '}
 						and{' '}
-						<a
-							href="#"
-							className="hover:text-blue-400 underline underline-offset-4"
+						<button
+							onClick={() => console.log('Privacy Policy clicked')}
+							className="bg-blue-900 text-blue-300 hover:bg-blue-800 hover:text-blue-200 px-2 py-1 rounded text-sm font-medium transition-colors border border-blue-700"
 						>
 							Privacy Policy
-						</a>
+						</button>
 						.
 					</p>
 				</div>
