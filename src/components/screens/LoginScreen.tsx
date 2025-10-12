@@ -48,6 +48,8 @@ export function LoginScreen({ onBack, onLogin }: LoginScreenProps) {
                      className="text-gray-300 text-lg italic"
                      speed={70}
                      delay={500}
+                     loop={true}
+                     pauseTime={1500}
                    />
                  </div>
 					<div className="space-y-2">
