@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '../ui/button';
-import { ChevronLeftIcon, Building2Icon, Grid2x2PlusIcon } from 'lucide-react';
+import { ChevronLeftIcon, Building2Icon, Grid2x2PlusIcon, Check } from 'lucide-react';
 import { Particles } from '../ui/particles';
 
 interface LoginScreenProps {
@@ -10,6 +10,8 @@ interface LoginScreenProps {
 
 
 export function LoginScreen({ onBack, onLogin }: LoginScreenProps) {
+	const [isAgreed, setIsAgreed] = useState(false);
+
 	return (
 		<div className="relative md:h-screen md:overflow-hidden w-full bg-black">
 			<Particles
@@ -38,32 +40,60 @@ export function LoginScreen({ onBack, onLogin }: LoginScreenProps) {
 						<p className="text-xl font-semibold text-white">ClassNote AI</p>
 					</div>
 					<div className="space-y-2">
-						<Button type="button" size="lg" variant="outline" className="w-full !bg-white !text-black hover:!bg-gray-100 !border-gray-200" onClick={onLogin}>
+						<Button 
+							type="button" 
+							size="lg" 
+							variant="outline" 
+							className="w-full !bg-white !text-black hover:!bg-gray-100 !border-gray-200 disabled:!bg-gray-400 disabled:!text-gray-600" 
+							onClick={onLogin}
+							disabled={!isAgreed}
+						>
 							<Building2Icon className="me-8 size-4 !text-black" />
 							Login To Organisation
 						</Button>
-						<Button type="button" size="lg" variant="outline" className="w-full !bg-white !text-black hover:!bg-gray-100 !border-gray-200" onClick={onLogin}>
+						<Button 
+							type="button" 
+							size="lg" 
+							variant="outline" 
+							className="w-full !bg-white !text-black hover:!bg-gray-100 !border-gray-200 disabled:!bg-gray-400 disabled:!text-gray-600" 
+							onClick={onLogin}
+							disabled={!isAgreed}
+						>
 							<Building2Icon className="me-8 size-4 !text-black" />
 							Register My Organisation
 						</Button>
 					</div>
-					<p className="text-gray-400 mt-8 text-sm">
-						By clicking continue, you agree to our{' '}
-						<button
-							onClick={() => console.log('Terms of Service clicked')}
-							className="bg-blue-900 text-blue-300 hover:bg-blue-800 hover:text-blue-200 px-2 py-1 rounded text-sm font-medium transition-colors border border-blue-700"
-						>
-							Terms of Service
-						</button>{' '}
-						and{' '}
-						<button
-							onClick={() => console.log('Privacy Policy clicked')}
-							className="bg-blue-900 text-blue-300 hover:bg-blue-800 hover:text-blue-200 px-2 py-1 rounded text-sm font-medium transition-colors border border-blue-700"
-						>
-							Privacy Policy
-						</button>
-						.
-					</p>
+					<div className="mt-8 space-y-3">
+						<div className="flex items-start gap-3">
+							<button
+								onClick={() => setIsAgreed(!isAgreed)}
+								className={`w-5 h-5 rounded border-2 flex items-center justify-center transition-colors ${
+									isAgreed 
+										? 'bg-blue-600 border-blue-600 text-white' 
+										: 'border-gray-500 hover:border-blue-500'
+								}`}
+							>
+								{isAgreed && <Check className="w-3 h-3" />}
+							</button>
+							<p className="text-gray-400 text-sm">
+								By clicking on the above tick mark, you agree to our{' '}
+								<button
+									onClick={() => console.log('Terms of Service clicked')}
+									className="bg-blue-900 text-blue-300 hover:bg-blue-800 hover:text-blue-200 px-2 py-1 rounded text-sm font-medium transition-colors border border-blue-700"
+								>
+									Terms of Service
+								</button>{' '}
+								and{' '}
+								<button
+									onClick={() => console.log('Privacy Policy clicked')}
+									className="bg-blue-900 text-blue-300 hover:bg-blue-800 hover:text-blue-200 px-2 py-1 rounded text-sm font-medium transition-colors border border-blue-700"
+								>
+									Privacy Policy
+								</button>
+								.
+							</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
