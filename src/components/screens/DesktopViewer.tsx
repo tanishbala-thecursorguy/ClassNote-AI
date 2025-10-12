@@ -81,7 +81,7 @@ export function DesktopViewer({ lectures, onNewRecording }: DesktopViewerProps) 
       {/* Left Sidebar - Lecture List */}
       <div className="w-80 bg-[#121315] border-r border-[#2A2C31] flex flex-col">
         <div className="p-6 border-b border-[#2A2C31]">
-          <h1 className="text-[#F5F7FA] mb-4">ClassNote AI</h1>
+          <h1 className="text-[#F5F7FA] mb-4">ClassNotes AI</h1>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A6A8AD]" />
             <Input

@@ -256,8 +256,8 @@ export function GetStartedScreen({ onGetStarted }: GetStartedScreenProps) {
   return (
     <div onClick={onGetStarted}>
       <AnomalousMatterHero
-        title="ClassNote AI"
-        subtitle='"Redefine the way you Study with ClassNote AI"'
+        title="ClassNotes AI"
+        subtitle='"Redefine the way you Study with ClassNotes AI"'
         description="Record. Transcribe. Percept. Stride."
       />
     </div>

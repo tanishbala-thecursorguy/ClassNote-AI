@@ -24,7 +24,7 @@ export function IntroAnimationScreen({ onComplete }: IntroAnimationScreenProps) 
       {/* Main vapor text effect */}
       <div className="relative z-10 w-full h-full flex justify-center items-center">
         <VaporizeTextCycle
-          texts={["ClassNote AI", "Is", "Cool"]}
+          texts={["ClassNotes AI", "Is", "Cool"]}
           font={{
             fontFamily: "Inter, sans-serif",
             fontSize: "70px",
