@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { ChevronLeftIcon, Building2Icon, Grid2x2PlusIcon, Check } from 'lucide-react';
 import { Particles } from '../ui/particles';
+import TypewriterText from '../ui/TypewriterText';
 
 interface LoginScreenProps {
   onBack: () => void;
@@ -35,10 +36,20 @@ export function LoginScreen({ onBack, onLogin }: LoginScreenProps) {
 				</Button>
 
 				<div className="mx-auto space-y-4 sm:w-sm">
-					<div className="flex items-center gap-2">
-						<Grid2x2PlusIcon className="size-6 text-white" />
-						<p className="text-xl font-semibold text-white">ClassNote AI</p>
-					</div>
+                 <div className="flex items-center gap-2 mb-4">
+                   <Grid2x2PlusIcon className="size-6 text-white" />
+                   <p className="text-xl font-semibold text-white">ClassNote AI</p>
+                 </div>
+                 
+                 {/* Typewriter Effect Statement */}
+                 <div className="mb-6 text-center">
+                   <TypewriterText
+                     htmlContent="<i>Let </i><b><i>ClassNote AI</i></b><i> Boost Your Academics</i>"
+                     className="text-gray-300 text-lg italic"
+                     speed={70}
+                     delay={500}
+                   />
+                 </div>
 					<div className="space-y-2">
 						<Button 
 							type="button" 
