@@ -4,7 +4,7 @@
 .hero-container {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 300vh;
   overflow: hidden;
   background: #000000; /* Pure black background */
 }
@@ -33,12 +33,31 @@
   pointer-events: none;
 }
 
-/* Login Workflow Styles */
-.login-workflow-container {
+/* Login Flow Styles */
+.login-flow-container {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 100vh; /* Single viewport height since only one interface shows */
   z-index: 100;
+}
+
+/* Disable normal scrolling for login flow */
+.hero-container:has(.login-flow-container) {
+  overflow: hidden;
+}
+
+.hero-container:has(.login-flow-container) body {
+  overflow: hidden;
+}
+
+/* Ensure smooth scroll snap for interfaces */
+.login-interface {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.login-flow-container {
+  scroll-snap-type: y mandatory;
 }
 
 .login-interface {
@@ -106,7 +125,7 @@
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.2), 0 4px 16px rgba(0, 0, 0, 0.4);
 }
 
-.continue-button, .back-button {
+.continue-button, .enter-app-button, .back-button {
   width: 100%;
   padding: 1rem 2rem;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.15));
@@ -132,7 +151,7 @@
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
-.continue-button:hover {
+.continue-button:hover, .enter-app-button:hover {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.2));
   border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-2px);
@@ -157,8 +176,27 @@
   flex: 0 0 auto;
 }
 
-.button-row .continue-button {
+.button-row .continue-button,
+.button-row .enter-app-button {
   flex: 1;
+}
+
+.enter-app-button {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.2));
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  font-size: 1.3rem;
+  padding: 1.2rem 2rem;
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+  animation: glow 2s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+  }
+  to {
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.4);
+  }
 }
 
 .options-grid {
@@ -204,6 +242,12 @@
   max-width: 200px;
 }
 
+.teacher-credentials {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
 .branch-info {
   margin-bottom: 1.5rem;
   color: rgba(255, 255, 255, 0.8);
@@ -218,6 +262,18 @@
   color: rgba(255, 255, 255, 0.7);
   font-size: 1rem;
   margin-top: 1rem;
+}
+
+.welcome-subtext {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.2rem;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+}
+
+.welcome-subtext strong {
+  color: white;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 
 .error-message {
