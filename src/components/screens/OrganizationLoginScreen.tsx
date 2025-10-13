@@ -3,7 +3,7 @@ import { Button } from '../ui/button';
 import { ChevronLeftIcon, Building2Icon, Grid2x2PlusIcon, Check } from 'lucide-react';
 import { Particles } from '../ui/particles';
 import TypewriterText from '../ui/TypewriterText';
-import { LoginWorkflow } from '../ui/LoginWorkflow';
+import { LoginWithBackground } from '../ui/LoginWithBackground';
 
 interface OrganizationLoginScreenProps {
   onBack: () => void;
@@ -27,12 +27,10 @@ export function OrganizationLoginScreen({ onBack, onLogin }: OrganizationLoginSc
     onLogin();
   };
 
-  // If login workflow is active, show it
+  // If login workflow is active, show it with the 3D background
   if (showLoginWorkflow) {
     return (
-      <div className="relative w-full h-screen bg-black">
-        <LoginWorkflow onComplete={handleLoginWorkflowComplete} />
-      </div>
+      <LoginWithBackground onComplete={handleLoginWorkflowComplete} />
     );
   }
 
