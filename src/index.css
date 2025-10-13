@@ -1,5 +1,38 @@
 /*! tailwindcss v4.1.3 | MIT License | https://tailwindcss.com */
 
+/* Hero Section Styles - Pure Black, Grey, White Only */
+.hero-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000000; /* Pure black background */
+}
+
+.hero-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+}
+
+.scroll-sections {
+  position: relative;
+  z-index: 50;
+}
+
+.content-section {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  pointer-events: none;
+}
+
 /* Login Workflow Styles */
 .login-workflow-container {
   position: relative;
