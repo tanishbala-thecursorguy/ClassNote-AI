@@ -7,7 +7,7 @@ import { SettingsScreen } from "./components/screens/SettingsScreen";
 import { DesktopViewer } from "./components/screens/DesktopViewer";
 import { IntroAnimationScreen } from "./components/screens/IntroAnimationScreen";
 import { GetStartedScreen } from "./components/screens/GetStartedScreen";
-import { LoginScreen } from "./components/screens/LoginScreen";
+import { OrganizationLoginScreen } from "./components/screens/OrganizationLoginScreen";
 import TestRecorder from "./pages/TestRecorder";
 import type { LectureCardProps } from "./components/classnote/LectureCard";
 import type { TranscriptionResponse } from "./services/api";
@@ -192,7 +192,7 @@ export default function App() {
       return <GetStartedScreen onGetStarted={handleGetStarted} />;
     
     case "login":
-      return <LoginScreen onBack={handleBackToGetStarted} onLogin={handleLogin} />;
+      return <OrganizationLoginScreen onBack={handleBackToGetStarted} onLogin={handleLogin} />;
     
     case "home":
       return (
