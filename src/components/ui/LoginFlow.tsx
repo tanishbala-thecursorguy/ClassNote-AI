@@ -189,12 +189,14 @@ export const LoginFlow = ({ onComplete }: LoginFlowProps) => {
   // Handle student login
   const handleStudentLogin = async () => {
     console.log('Student login clicked - going directly to DottedSurface');
+    console.log('Setting showDottedSurface to true');
     setShowDottedSurface(true); // Show dotted surface immediately
   };
 
   // Handle teacher login
   const handleTeacherLogin = async () => {
     console.log('Teacher login clicked - going directly to DottedSurface');
+    console.log('Setting showDottedSurface to true');
     setShowDottedSurface(true); // Show dotted surface immediately
   };
 
@@ -207,7 +209,8 @@ export const LoginFlow = ({ onComplete }: LoginFlowProps) => {
 
   // Show DottedSurface after successful login
   if (showDottedSurface) {
-    console.log('Showing DottedSurface after successful login');
+    console.log('LoginWorkflow: Showing DottedSurface after successful login');
+    console.log('showDottedSurface state:', showDottedSurface);
     return <DottedSurfaceDemo onContinue={onComplete} />;
   }
 
