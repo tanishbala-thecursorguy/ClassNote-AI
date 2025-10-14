@@ -1,5 +1,6 @@
-import { DottedSurface } from "@/components/ui/dotted-surface";
-import { cn } from '@/lib/utils';
+import React from 'react';
+import { DottedSurface } from "./dotted-surface";
+import { cn } from '../../lib/utils';
 
 interface DottedSurfaceDemoProps {
   onContinue: () => void;
@@ -7,8 +8,7 @@ interface DottedSurfaceDemoProps {
 
 export function DottedSurfaceDemo({ onContinue }: DottedSurfaceDemoProps) {
   return (
-    <div className="relative w-full h-screen bg-black overflow-hidden">
-      <DottedSurface className="size-full" />
+    <DottedSurface className="size-full">
       <div className="absolute inset-0 flex items-center justify-center">
         <div
           aria-hidden="true"
@@ -20,7 +20,7 @@ export function DottedSurfaceDemo({ onContinue }: DottedSurfaceDemoProps) {
         />
         <div className="text-center z-10">
           <h1 className="font-mono text-4xl font-semibold text-white mb-4">
-            Welcome to ClassNotes AI
+            Dotted Surface
           </h1>
           <p className="text-gray-300 text-lg mb-8">
             Click anywhere to continue to your dashboard
@@ -33,6 +33,6 @@ export function DottedSurfaceDemo({ onContinue }: DottedSurfaceDemoProps) {
           </button>
         </div>
       </div>
-    </div>
+    </DottedSurface>
   );
 }

@@ -1,11 +1,14 @@
 'use client';
-import { cn } from '@/lib/utils';
+import { cn } from '../../lib/utils';
+import { useTheme } from 'next-themes';
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 type DottedSurfaceProps = Omit<React.ComponentProps<'div'>, 'ref'>;
 
 export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
+	const { theme } = useTheme();
+
 	const containerRef = useRef<HTMLDivElement>(null);
 	const sceneRef = useRef<{
 		scene: THREE.Scene;
@@ -25,7 +28,7 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 
 		// Scene setup
 		const scene = new THREE.Scene();
-		scene.fog = new THREE.Fog(0x000000, 2000, 10000); // Changed to black for dark theme
+		scene.fog = new THREE.Fog(0xffffff, 2000, 10000);
 
 		const camera = new THREE.PerspectiveCamera(
 			60,
@@ -41,7 +44,7 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 		});
 		renderer.setPixelRatio(window.devicePixelRatio);
 		renderer.setSize(window.innerWidth, window.innerHeight);
-		renderer.setClearColor(0x000000, 0); // Black background for dark theme
+		renderer.setClearColor(scene.fog.color, 0);
 
 		containerRef.current.appendChild(renderer.domElement);
 
@@ -60,8 +63,11 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 				const z = iy * SEPARATION - (AMOUNTY * SEPARATION) / 2;
 
 				positions.push(x, y, z);
-				// Use light grey dots for dark theme
-				colors.push(200, 200, 200);
+				if (theme === 'dark') {
+					colors.push(200, 200, 200);
+				} else {
+					colors.push(0, 0, 0);
+				}
 			}
 		}
 
@@ -85,7 +91,7 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 		scene.add(points);
 
 		let count = 0;
-		let animationId: number;
+		let animationId: number = 0;
 
 		// Animation function
 		const animate = () => {
@@ -173,12 +179,12 @@ export function DottedSurface({ className, ...props }: DottedSurfaceProps) {
 				}
 			}
 		};
-	}, []);
+	}, [theme]);
 
 	return (
 		<div
 			ref={containerRef}
-			className={cn('pointer-events-none fixed inset-0 -z-10', className)}
+			className={cn('pointer-events-none fixed inset-0 -z-1', className)}
 			{...props}
 		/>
 	);
