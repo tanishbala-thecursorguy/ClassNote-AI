@@ -47,10 +47,11 @@ export function AnimeNavBar({ items, className, defaultActive = "Summary", onNav
   if (!mounted) return null
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[99999]">
-      <div className="flex justify-center pb-4">
+    <div className="fixed bottom-0 left-0 right-0 z-[999999] w-full">
+      <div className="flex justify-center pb-4 w-full">
         <motion.div 
-          className="flex items-center gap-4 bg-black/95 border-2 border-white/40 backdrop-blur-lg py-4 px-6 rounded-full shadow-2xl relative"
+          className="flex items-center gap-4 bg-red-500/90 border-4 border-yellow-400 backdrop-blur-lg py-4 px-6 rounded-full shadow-2xl relative"
+          style={{ position: 'fixed', bottom: '0px', left: '50%', transform: 'translateX(-50%)', zIndex: 999999 }}
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{
