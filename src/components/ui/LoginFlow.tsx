@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from 'react';
+import { DottedSurfaceDemo } from './dotted-surface-demo';
 
 interface LoginData {
   organizationUID: string;
@@ -33,6 +34,7 @@ export const LoginFlow = ({ onComplete }: LoginFlowProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [isRoleBasedLogin, setIsRoleBasedLogin] = useState(false); // Track if we're in role-based login phase
+  const [showDottedSurface, setShowDottedSurface] = useState(false); // Track when to show dotted surface
 
   // Interface refs for animations
   const interfaceRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -199,7 +201,7 @@ export const LoginFlow = ({ onComplete }: LoginFlowProps) => {
     setTimeout(() => {
       setIsLoading(false);
       setError(''); // Clear any errors
-      onComplete(); // Call onComplete to proceed to main app
+      setShowDottedSurface(true); // Show dotted surface instead of calling onComplete
     }, 1000);
   };
 
@@ -218,7 +220,7 @@ export const LoginFlow = ({ onComplete }: LoginFlowProps) => {
     setTimeout(() => {
       setIsLoading(false);
       setError(''); // Clear any errors
-      onComplete(); // Call onComplete to proceed to main app
+      setShowDottedSurface(true); // Show dotted surface instead of calling onComplete
     }, 1000);
   };
 
@@ -228,6 +230,11 @@ export const LoginFlow = ({ onComplete }: LoginFlowProps) => {
   useEffect(() => {
     setCurrentInterface(1);
   }, []);
+
+  // Show DottedSurface after successful login
+  if (showDottedSurface) {
+    return <DottedSurfaceDemo onContinue={onComplete} />;
+  }
 
   return (
     <div ref={containerRef} className="login-flow-container">
