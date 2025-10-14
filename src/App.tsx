@@ -35,7 +35,7 @@ type Screen =
   | { type: "chat" };
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<Screen>({ type: "get-started" }); // Start directly on get-started for testing
+  const [currentScreen, setCurrentScreen] = useState<Screen>({ type: "intro-animation" }); // Start with intro animation
   const [hasOnboarded, setHasOnboarded] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   
