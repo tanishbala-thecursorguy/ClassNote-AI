@@ -258,6 +258,7 @@ export function GetStartedScreen({ onGetStarted }: GetStartedScreenProps) {
     e.stopPropagation();
     console.log('Get Started screen clicked - calling onGetStarted');
     console.log('Click event:', e);
+    console.log('onGetStarted function:', onGetStarted);
     onGetStarted();
   };
 

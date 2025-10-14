@@ -85,8 +85,10 @@ export default function App() {
   };
 
   const handleGetStarted = () => {
-    console.log('Get Started clicked - going to organization login');
+    console.log('App.tsx: Get Started clicked - going to organization login');
+    console.log('Current screen before change:', currentScreen);
     setCurrentScreen({ type: "login" });
+    console.log('Screen changed to login');
   };
 
   const handleLogin = () => {

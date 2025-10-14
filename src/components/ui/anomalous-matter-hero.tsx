@@ -21,6 +21,7 @@ export function GenerativeArtScene() {
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(currentMount.clientWidth, currentMount.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.domElement.style.pointerEvents = 'none'; // Allow clicks to pass through
     currentMount.appendChild(renderer.domElement);
 
     const geometry = new THREE.IcosahedronGeometry(1.2, 64);
