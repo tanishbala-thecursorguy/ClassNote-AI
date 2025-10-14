@@ -253,18 +253,46 @@ interface GetStartedScreenProps {
 }
 
 export function GetStartedScreen({ onGetStarted }: GetStartedScreenProps) {
-  const handleClick = () => {
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     console.log('Get Started screen clicked - calling onGetStarted');
+    console.log('Click event:', e);
     onGetStarted();
   };
 
   return (
-    <div onClick={handleClick} style={{ cursor: 'pointer', width: '100%', height: '100vh' }}>
+    <div 
+      onClick={handleClick} 
+      style={{ 
+        cursor: 'pointer', 
+        width: '100%', 
+        height: '100vh',
+        position: 'relative',
+        zIndex: 999
+      }}
+    >
       <AnomalousMatterHero
                title="ClassNotes AI"
         subtitle='"Redefine the way you Study with ClassNotes AI"'
         description="Record. Transcribe. Percept. Stride."
       />
+      {/* Debug overlay */}
+      <div 
+        style={{
+          position: 'absolute',
+          top: '10px',
+          left: '10px',
+          background: 'rgba(0,0,0,0.7)',
+          color: 'white',
+          padding: '10px',
+          borderRadius: '5px',
+          fontSize: '12px',
+          zIndex: 1000
+        }}
+      >
+        DEBUG: Click anywhere to go to login survey
+      </div>
     </div>
   );
 }
