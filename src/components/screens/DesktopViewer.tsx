@@ -93,8 +93,8 @@ export function DesktopViewer({ lectures, onNewRecording, onSettings, onChat }: 
   };
 
   return (
-    <>
-      {/* Animated Navigation Bar - Outside main container */}
+    <div className="h-screen bg-[#0B0B0C] flex relative">
+      {/* Animated Navigation Bar */}
       <AnimeNavBar 
         items={navItems}
         onNavigate={handleTabNavigation}
@@ -102,9 +102,8 @@ export function DesktopViewer({ lectures, onNewRecording, onSettings, onChat }: 
         defaultActive="Summary"
       />
       
-      <div className="h-screen bg-[#0B0B0C] flex relative">
-        {/* Left Sidebar - Lecture List */}
-        <div className="w-80 bg-[#121315] border-r border-[#2A2C31] flex flex-col">
+      {/* Left Sidebar - Lecture List */}
+      <div className="w-80 bg-[#121315] border-r border-[#2A2C31] flex flex-col">
         <div className="p-6 border-b border-[#2A2C31]">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-[#F5F7FA]">ClassNote AI</h1>
@@ -348,6 +347,6 @@ export function DesktopViewer({ lectures, onNewRecording, onSettings, onChat }: 
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
