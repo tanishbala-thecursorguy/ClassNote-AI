@@ -33,7 +33,7 @@ type Screen =
   | { type: "test-recorder" };
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<Screen>({ type: "intro-animation" }); // Start with intro animation
+  const [currentScreen, setCurrentScreen] = useState<Screen>({ type: "get-started" }); // Start directly on get-started for testing
   const [hasOnboarded, setHasOnboarded] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   
@@ -85,10 +85,8 @@ export default function App() {
   };
 
   const handleGetStarted = () => {
-    console.log('App.tsx: Get Started clicked - going to organization login');
-    console.log('Current screen before change:', currentScreen);
+    console.log('Get Started clicked - going to login survey');
     setCurrentScreen({ type: "login" });
-    console.log('Screen changed to login');
   };
 
   const handleLogin = () => {

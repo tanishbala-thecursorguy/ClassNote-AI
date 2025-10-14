@@ -14,7 +14,7 @@ export function IntroAnimationScreen({ onComplete }: IntroAnimationScreenProps) 
     setTimeout(() => {
       console.log('Intro animation completed - going to Get Started screen');
       onComplete();
-    }, 1000); // Back to 1000ms for proper animation timing
+    }, 500); // Reduced from 1000ms to 500ms
   };
 
   return (
