@@ -3,7 +3,7 @@ import { Button } from '../ui/button';
 import { ChevronLeftIcon, Building2Icon, Grid2x2PlusIcon, Check } from 'lucide-react';
 import { Particles } from '../ui/particles';
 import TypewriterText from '../ui/TypewriterText';
-// Removed LoginWithBackground - using direct flow to DottedSurface
+import { LoginWithBackground } from '../ui/LoginWithBackground';
 
 interface OrganizationLoginScreenProps {
   onBack: () => void;
@@ -14,11 +14,25 @@ export function OrganizationLoginScreen({ onBack, onLogin }: OrganizationLoginSc
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isAgreed, setIsAgreed] = useState(false);
+  const [showLoginWorkflow, setShowLoginWorkflow] = useState(false);
+
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Login button clicked - going directly to DottedSurface');
-    onLogin(); // Go directly to DottedSurface
+    console.log('Login button clicked - starting login workflow');
+    setShowLoginWorkflow(true);
   };
+
+  const handleLoginWorkflowComplete = () => {
+    console.log('Login workflow completed - going to DottedSurface');
+    onLogin(); // This will go to DottedSurface
+  };
+
+  // If login workflow is active, show it with the 3D background
+  if (showLoginWorkflow) {
+    return (
+      <LoginWithBackground onComplete={handleLoginWorkflowComplete} />
+    );
+  }
 
   return (
     <div className="relative md:h-screen md:overflow-hidden w-full bg-black">
