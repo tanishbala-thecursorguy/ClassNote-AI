@@ -12,8 +12,9 @@ export function IntroAnimationScreen({ onComplete }: IntroAnimationScreenProps) 
     setIsComplete(true);
     // Wait a moment before transitioning
     setTimeout(() => {
+      console.log('Intro animation completed - going to Get Started screen');
       onComplete();
-    }, 1000);
+    }, 500); // Reduced from 1000ms to 500ms
   };
 
   return (

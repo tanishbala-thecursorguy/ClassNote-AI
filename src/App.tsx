@@ -33,7 +33,7 @@ type Screen =
   | { type: "test-recorder" };
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<Screen>({ type: "intro-animation" });
+  const [currentScreen, setCurrentScreen] = useState<Screen>({ type: "get-started" }); // Start directly on get-started for testing
   const [hasOnboarded, setHasOnboarded] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   

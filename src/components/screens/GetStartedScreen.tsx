@@ -253,8 +253,13 @@ interface GetStartedScreenProps {
 }
 
 export function GetStartedScreen({ onGetStarted }: GetStartedScreenProps) {
+  const handleClick = () => {
+    console.log('Get Started screen clicked - calling onGetStarted');
+    onGetStarted();
+  };
+
   return (
-    <div onClick={onGetStarted}>
+    <div onClick={handleClick} style={{ cursor: 'pointer', width: '100%', height: '100vh' }}>
       <AnomalousMatterHero
                title="ClassNotes AI"
         subtitle='"Redefine the way you Study with ClassNotes AI"'
