@@ -191,11 +191,11 @@ export const LoginFlow = ({ onComplete }: LoginFlowProps) => {
     setIsLoading(true);
     setError('');
     
-    if (!loginData.teacherUID?.trim() || !loginData.teacherPassword?.trim()) {
-      setError('Please fill in all fields');
-      setIsLoading(false);
-      return;
-    }
+    // For testing, allow empty fields - just proceed
+    console.log('Student login attempted with:', { 
+      teacherUID: loginData.teacherUID, 
+      teacherPassword: loginData.teacherPassword 
+    });
     
     // Simulate API call - for now just proceed
     setTimeout(() => {
@@ -211,11 +211,11 @@ export const LoginFlow = ({ onComplete }: LoginFlowProps) => {
     setIsLoading(true);
     setError('');
     
-    if (!loginData.teacherUID?.trim() || !loginData.teacherPassword?.trim()) {
-      setError('Please fill in all fields');
-      setIsLoading(false);
-      return;
-    }
+    // For testing, allow empty fields - just proceed
+    console.log('Teacher login attempted with:', { 
+      teacherUID: loginData.teacherUID, 
+      teacherPassword: loginData.teacherPassword 
+    });
     
     // Simulate API call - for now just proceed
     setTimeout(() => {
