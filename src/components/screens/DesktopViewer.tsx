@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, Download, Share2, Filter, ChevronRight, Plus, Settings, MessageCircle } from "lucide-react";
+import { Search, Download, Share2, Filter, ChevronRight, Plus, Settings, MessageCircle, FileText, FileBarChart, StickyNote, Paperclip } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
@@ -7,6 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { TranscriptRow } from "../classnote/TranscriptRow";
 import { ChartBlock } from "../classnote/ChartBlock";
 import { TableBlock } from "../classnote/TableBlock";
+import { AnimeNavBar } from "../ui/anime-navbar";
 import type { LectureCardProps } from "../classnote/LectureCard";
 
 interface DesktopViewerProps {
@@ -19,11 +20,24 @@ interface DesktopViewerProps {
 export function DesktopViewer({ lectures, onNewRecording, onSettings, onChat }: DesktopViewerProps) {
   const [selectedLecture, setSelectedLecture] = useState(lectures[0]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeTab, setActiveTab] = useState("Summary");
+
+  // Navigation items for the animated navbar
+  const navItems = [
+    { name: "Summary", screen: "Summary", icon: FileBarChart },
+    { name: "Transcript", screen: "Transcript", icon: FileText },
+    { name: "Notes", screen: "Notes", icon: StickyNote },
+    { name: "Assets", screen: "Assets", icon: Paperclip },
+  ];
 
   const filteredLectures = lectures.filter(lecture =>
     lecture.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
     lecture.course.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const handleTabNavigation = (screenName: string) => {
+    setActiveTab(screenName);
+  };
 
   // Mock data
   const transcriptData: Array<{
@@ -79,7 +93,14 @@ export function DesktopViewer({ lectures, onNewRecording, onSettings, onChat }: 
   };
 
   return (
-    <div className="h-screen bg-[#0B0B0C] flex">
+    <div className="h-screen bg-[#0B0B0C] flex relative">
+      {/* Animated Navigation Bar */}
+      <AnimeNavBar 
+        items={navItems}
+        onNavigate={handleTabNavigation}
+        currentActiveScreen={activeTab}
+        defaultActive="Summary"
+      />
       {/* Left Sidebar - Lecture List */}
       <div className="w-80 bg-[#121315] border-r border-[#2A2C31] flex flex-col">
         <div className="p-6 border-b border-[#2A2C31]">
@@ -199,38 +220,13 @@ export function DesktopViewer({ lectures, onNewRecording, onSettings, onChat }: 
           </div>
         </div>
 
-        {/* Tabs */}
-        <Tabs defaultValue="summary" className="flex-1 flex flex-col overflow-hidden">
-          <TabsList className="w-full bg-[#121315] border-b border-[#2A2C31] rounded-none h-auto p-0 px-8">
-            <TabsTrigger
-              value="summary"
-              className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-[#F5F7FA] rounded-none text-[#A6A8AD] data-[state=active]:text-[#F5F7FA] py-3"
-            >
-              Summary
-            </TabsTrigger>
-            <TabsTrigger
-              value="transcript"
-              className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-[#F5F7FA] rounded-none text-[#A6A8AD] data-[state=active]:text-[#F5F7FA] py-3"
-            >
-              Transcript
-            </TabsTrigger>
-            <TabsTrigger
-              value="notes"
-              className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-[#F5F7FA] rounded-none text-[#A6A8AD] data-[state=active]:text-[#F5F7FA] py-3"
-            >
-              Notes
-            </TabsTrigger>
-            <TabsTrigger
-              value="assets"
-              className="data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-[#F5F7FA] rounded-none text-[#A6A8AD] data-[state=active]:text-[#F5F7FA] py-3"
-            >
-              Assets
-            </TabsTrigger>
-          </TabsList>
-
+        {/* Content Area */}
+        <div className="flex-1 flex flex-col overflow-hidden">
           <div className="flex-1 overflow-y-auto">
-            <TabsContent value="summary" className="p-8 mt-0">
-              <div className="max-w-4xl mx-auto space-y-8">
+            {/* Summary Tab Content */}
+            {activeTab === "Summary" && (
+              <div className="p-8">
+                <div className="max-w-4xl mx-auto space-y-8">
                 <div>
                   <h3 className="text-[#F5F7FA] mb-4">Executive Summary</h3>
                   <p className="text-[#E5E7EB] leading-relaxed">
@@ -263,11 +259,14 @@ export function DesktopViewer({ lectures, onNewRecording, onSettings, onChat }: 
                 </div>
 
                 <ChartBlock title="Topic Emphasis (minutes)" data={emphasisData} />
+                </div>
               </div>
-            </TabsContent>
+            )}
 
-            <TabsContent value="transcript" className="p-8 mt-0">
-              <div className="max-w-4xl mx-auto">
+            {/* Transcript Tab Content */}
+            {activeTab === "Transcript" && (
+              <div className="p-8">
+                <div className="max-w-4xl mx-auto">
                 <div className="space-y-1">
                   {transcriptData.map((item, index) => {
                     const { timestamp, text, marker } = item;
@@ -278,12 +277,15 @@ export function DesktopViewer({ lectures, onNewRecording, onSettings, onChat }: 
                       marker
                     });
                   })}
+                  </div>
                 </div>
               </div>
-            </TabsContent>
+            )}
 
-            <TabsContent value="notes" className="p-8 mt-0">
-              <div className="max-w-4xl mx-auto space-y-8">
+            {/* Notes Tab Content */}
+            {activeTab === "Notes" && (
+              <div className="p-8">
+                <div className="max-w-4xl mx-auto space-y-8">
                 <div>
                   <h3 className="text-[#F5F7FA] mb-4">Core Concepts</h3>
                   <div className="bg-[#121315] border border-[#2A2C31] rounded-2xl p-6">
@@ -323,11 +325,14 @@ export function DesktopViewer({ lectures, onNewRecording, onSettings, onChat }: 
 
                 <TableBlock title="Definitions" {...conceptTable} />
                 <ChartBlock title="Topic Emphasis" data={emphasisData} />
+                </div>
               </div>
-            </TabsContent>
+            )}
 
-            <TabsContent value="assets" className="p-8 mt-0">
-              <div className="max-w-4xl mx-auto text-center py-16">
+            {/* Assets Tab Content */}
+            {activeTab === "Assets" && (
+              <div className="p-8">
+                <div className="max-w-4xl mx-auto text-center py-16">
                 <div className="w-16 h-16 rounded-full bg-[#121315] border border-[#2A2C31] flex items-center justify-center mx-auto mb-4">
                   <Download className="w-8 h-8 text-[#A6A8AD]" />
                 </div>
@@ -335,10 +340,11 @@ export function DesktopViewer({ lectures, onNewRecording, onSettings, onChat }: 
                 <p className="text-[#A6A8AD]">
                   Slide photos and attachments will appear here
                 </p>
+                </div>
               </div>
-            </TabsContent>
+            )}
           </div>
-        </Tabs>
+        </div>
       </div>
     </div>
   );
