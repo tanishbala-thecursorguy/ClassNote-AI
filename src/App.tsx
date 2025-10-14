@@ -85,8 +85,8 @@ export default function App() {
   };
 
   const handleGetStarted = () => {
-    console.log('Get Started clicked - going to login survey');
-    setCurrentScreen({ type: "login" });
+    console.log('Get Started clicked - going directly to DottedSurface');
+    setCurrentScreen({ type: "dotted-surface" });
   };
 
   const handleLogin = () => {
