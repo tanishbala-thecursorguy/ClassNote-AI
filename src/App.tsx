@@ -37,6 +37,9 @@ export default function App() {
   const [hasOnboarded, setHasOnboarded] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   
+  // Debug current screen
+  console.log('Current screen:', currentScreen);
+  
   const [lectures, setLectures] = useState<LectureCardProps[]>([
     {
       id: "1",
@@ -82,6 +85,7 @@ export default function App() {
   };
 
   const handleGetStarted = () => {
+    console.log('Get Started clicked - going to login screen');
     setCurrentScreen({ type: "login" });
   };
 
@@ -98,6 +102,11 @@ export default function App() {
     } else {
       setCurrentScreen({ type: "home" });
     }
+  };
+
+  const handleTestDottedSurface = () => {
+    console.log('Test button clicked - going directly to DottedSurface');
+    setCurrentScreen({ type: "dotted-surface" });
   };
 
   const handleBackToGetStarted = () => {
@@ -197,7 +206,7 @@ export default function App() {
       return <IntroAnimationScreen onComplete={handleIntroComplete} />;
     
     case "get-started":
-      return <GetStartedScreen onGetStarted={handleGetStarted} />;
+      return <GetStartedScreen onGetStarted={handleGetStarted} onTestDottedSurface={handleTestDottedSurface} />;
     
     case "login":
       return <OrganizationLoginScreen onBack={handleBackToGetStarted} onLogin={handleLogin} />;
