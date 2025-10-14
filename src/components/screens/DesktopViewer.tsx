@@ -170,7 +170,7 @@ export function DesktopViewer({ lectures, onNewRecording, onSettings, onChat }: 
       </div>
 
       {/* Floating Action Buttons */}
-      <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
+      <div className="fixed bottom-20 right-6 flex flex-col gap-3 z-50">
         {/* Chatbot Button */}
         <button
           onClick={onChat}
