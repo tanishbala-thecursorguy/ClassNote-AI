@@ -139,7 +139,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Summary", onNav
                 {isActive && (
                   <motion.div
                     layoutId="anime-mascot"
-                    className="absolute -top-16 left-1/2 -translate-x-1/2 pointer-events-none"
+                    className="absolute -top-20 left-1/2 -translate-x-1/2 pointer-events-none"
                     initial={false}
                     transition={{
                       type: "spring",
@@ -149,7 +149,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Summary", onNav
                   >
                     <div className="relative w-16 h-16">
                       <motion.div 
-                        className="absolute w-14 h-14 bg-white rounded-full left-1/2 -translate-x-1/2 border-2 border-gray-300"
+                        className="absolute w-14 h-14 bg-white rounded-full left-1/2 -translate-x-1/2 border-2 border-white"
                         animate={
                           hoveredTab ? {
                             scale: [1, 1.1, 1],
@@ -229,7 +229,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Summary", onNav
                                 initial={{ opacity: 0, scale: 0 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0 }}
-                                className="absolute -top-1 -right-1 w-2 h-2 text-yellow-300"
+                                className="absolute -top-1 -right-1 w-2 h-2 text-white"
                               >
                                 ✨
                               </motion.div>
@@ -238,7 +238,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Summary", onNav
                                 animate={{ opacity: 1, scale: 1 }}
                                 exit={{ opacity: 0, scale: 0 }}
                                 transition={{ delay: 0.1 }}
-                                className="absolute -top-2 left-0 w-2 h-2 text-yellow-300"
+                                className="absolute -top-2 left-0 w-2 h-2 text-white"
                               >
                                 ✨
                               </motion.div>
@@ -267,7 +267,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Summary", onNav
                           }
                         }
                       >
-                        <div className="w-full h-full bg-white rotate-45 transform origin-center" />
+                        <div className="w-full h-full bg-white rotate-45 transform origin-center border border-white" />
                       </motion.div>
                     </div>
                   </motion.div>
