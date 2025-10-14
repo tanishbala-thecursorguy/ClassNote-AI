@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DottedSurface } from "./dotted-surface";
 import { cn } from '../../lib/utils';
 
@@ -7,6 +7,17 @@ interface DottedSurfaceDemoProps {
 }
 
 export function DottedSurfaceDemo({ onContinue }: DottedSurfaceDemoProps) {
+  // Auto-transition after 2 seconds
+  useEffect(() => {
+    console.log('DottedSurface welcome screen - auto-transitioning to dashboard in 2 seconds');
+    const timer = setTimeout(() => {
+      console.log('Auto-transitioning to dashboard');
+      onContinue();
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [onContinue]);
+
   return (
     <DottedSurface className="size-full">
       <div className="absolute inset-0 flex items-center justify-center">
@@ -20,17 +31,12 @@ export function DottedSurfaceDemo({ onContinue }: DottedSurfaceDemoProps) {
         />
         <div className="text-center z-10">
           <h1 className="font-mono text-4xl font-semibold text-white mb-4">
-            Dotted Surface
+            Welcome to ClassNotes AI
           </h1>
           <p className="text-gray-300 text-lg mb-8">
-            Click anywhere to continue to your dashboard
+            Loading your dashboard...
           </p>
-          <button
-            onClick={onContinue}
-            className="px-8 py-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white hover:bg-white/30 transition-all duration-300"
-          >
-            Enter Dashboard
-          </button>
+          <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto"></div>
         </div>
       </div>
     </DottedSurface>
