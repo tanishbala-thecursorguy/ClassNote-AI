@@ -188,42 +188,14 @@ export const LoginFlow = ({ onComplete }: LoginFlowProps) => {
 
   // Handle student login
   const handleStudentLogin = async () => {
-    setIsLoading(true);
-    setError('');
-    
-    // For testing, allow empty fields - just proceed
-    console.log('Student login attempted with:', { 
-      teacherUID: loginData.teacherUID, 
-      teacherPassword: loginData.teacherPassword 
-    });
-    
-    // Simulate API call - for now just proceed
-    setTimeout(() => {
-      setIsLoading(false);
-      setError(''); // Clear any errors
-      console.log('Student login successful, setting showDottedSurface to true');
-      setShowDottedSurface(true); // Show dotted surface instead of calling onComplete
-    }, 1000);
+    console.log('Student login clicked - going directly to DottedSurface');
+    setShowDottedSurface(true); // Show dotted surface immediately
   };
 
   // Handle teacher login
   const handleTeacherLogin = async () => {
-    setIsLoading(true);
-    setError('');
-    
-    // For testing, allow empty fields - just proceed
-    console.log('Teacher login attempted with:', { 
-      teacherUID: loginData.teacherUID, 
-      teacherPassword: loginData.teacherPassword 
-    });
-    
-    // Simulate API call - for now just proceed
-    setTimeout(() => {
-      setIsLoading(false);
-      setError(''); // Clear any errors
-      console.log('Teacher login successful, setting showDottedSurface to true');
-      setShowDottedSurface(true); // Show dotted surface instead of calling onComplete
-    }, 1000);
+    console.log('Teacher login clicked - going directly to DottedSurface');
+    setShowDottedSurface(true); // Show dotted surface immediately
   };
 
   // No redirect needed - login flow ends at role-based login
