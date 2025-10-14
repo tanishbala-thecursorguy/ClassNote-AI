@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, Download, Share2, Filter, ChevronRight, Plus } from "lucide-react";
+import { Search, Download, Share2, Filter, ChevronRight, Plus, Settings } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
@@ -12,9 +12,10 @@ import type { LectureCardProps } from "../classnote/LectureCard";
 interface DesktopViewerProps {
   lectures: LectureCardProps[];
   onNewRecording: () => void;
+  onSettings: () => void;
 }
 
-export function DesktopViewer({ lectures, onNewRecording }: DesktopViewerProps) {
+export function DesktopViewer({ lectures, onNewRecording, onSettings }: DesktopViewerProps) {
   const [selectedLecture, setSelectedLecture] = useState(lectures[0]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -81,7 +82,16 @@ export function DesktopViewer({ lectures, onNewRecording }: DesktopViewerProps) 
       {/* Left Sidebar - Lecture List */}
       <div className="w-80 bg-[#121315] border-r border-[#2A2C31] flex flex-col">
         <div className="p-6 border-b border-[#2A2C31]">
-          <h1 className="text-[#F5F7FA] mb-4">ClassNote AI</h1>
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-[#F5F7FA]">ClassNote AI</h1>
+            <button
+              onClick={onSettings}
+              className="p-2 rounded-lg hover:bg-[#1C1D20] transition-colors"
+              title="Settings"
+            >
+              <Settings className="w-5 h-5 text-[#A6A8AD] hover:text-[#F5F7FA]" />
+            </button>
+          </div>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#A6A8AD]" />
             <Input

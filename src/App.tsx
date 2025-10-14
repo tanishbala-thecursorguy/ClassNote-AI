@@ -197,7 +197,7 @@ export default function App() {
 
   // Render desktop view if viewport is large enough and user has onboarded
   if (hasOnboarded && isDesktop && currentScreen.type === "desktop") {
-    return <DesktopViewer lectures={lecturesWithHandlers} onNewRecording={handleNewRecording} />;
+    return <DesktopViewer lectures={lecturesWithHandlers} onNewRecording={handleNewRecording} onSettings={handleSettings} />;
   }
 
   // Mobile screens
