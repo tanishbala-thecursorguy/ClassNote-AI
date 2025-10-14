@@ -19,6 +19,7 @@ export function OrganizationLoginScreen({ onBack, onLogin }: OrganizationLoginSc
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Attempting login with:', { email, password });
+    console.log('Setting showLoginWorkflow to true');
     setShowLoginWorkflow(true);
   };
 

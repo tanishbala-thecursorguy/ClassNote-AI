@@ -201,6 +201,7 @@ export const LoginFlow = ({ onComplete }: LoginFlowProps) => {
     setTimeout(() => {
       setIsLoading(false);
       setError(''); // Clear any errors
+      console.log('Student login successful, setting showDottedSurface to true');
       setShowDottedSurface(true); // Show dotted surface instead of calling onComplete
     }, 1000);
   };
@@ -220,6 +221,7 @@ export const LoginFlow = ({ onComplete }: LoginFlowProps) => {
     setTimeout(() => {
       setIsLoading(false);
       setError(''); // Clear any errors
+      console.log('Teacher login successful, setting showDottedSurface to true');
       setShowDottedSurface(true); // Show dotted surface instead of calling onComplete
     }, 1000);
   };
@@ -233,6 +235,7 @@ export const LoginFlow = ({ onComplete }: LoginFlowProps) => {
 
   // Show DottedSurface after successful login
   if (showDottedSurface) {
+    console.log('Showing DottedSurface after successful login');
     return <DottedSurfaceDemo onContinue={onComplete} />;
   }
 
