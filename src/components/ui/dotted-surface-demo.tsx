@@ -34,7 +34,6 @@ export function DottedSurfaceDemo({ onContinue }: DottedSurfaceDemoProps) {
             Welcome to ClassNotes AI
           </h1>
         </div>
-        </div>
       </div>
     </DottedSurface>
   );
