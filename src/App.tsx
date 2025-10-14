@@ -5,6 +5,7 @@ import { ProcessingScreen } from "./components/screens/ProcessingScreen";
 import { SessionDetailScreen } from "./components/screens/SessionDetailScreen";
 import { SettingsScreen } from "./components/screens/SettingsScreen";
 import { DesktopViewer } from "./components/screens/DesktopViewer";
+import { ChatScreen } from "./components/screens/ChatScreen";
 import { IntroAnimationScreen } from "./components/screens/IntroAnimationScreen";
 import { GetStartedScreen } from "./components/screens/GetStartedScreen";
 import { OrganizationLoginScreen } from "./components/screens/OrganizationLoginScreen";
@@ -30,7 +31,8 @@ type Screen =
   | { type: "session"; sessionId: string }
   | { type: "settings" }
   | { type: "desktop" }
-  | { type: "test-recorder" };
+  | { type: "test-recorder" }
+  | { type: "chat" };
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>({ type: "get-started" }); // Start directly on get-started for testing
@@ -189,6 +191,10 @@ export default function App() {
     setCurrentScreen({ type: "test-recorder" });
   };
 
+  const handleChat = () => {
+    setCurrentScreen({ type: "chat" });
+  };
+
   // Update lectures with onClick handlers
   const lecturesWithHandlers = lectures.map(lecture => ({
     ...lecture,
@@ -197,7 +203,7 @@ export default function App() {
 
   // Render desktop view if viewport is large enough and user has onboarded
   if (hasOnboarded && isDesktop && currentScreen.type === "desktop") {
-    return <DesktopViewer lectures={lecturesWithHandlers} onNewRecording={handleNewRecording} onSettings={handleSettings} />;
+    return <DesktopViewer lectures={lecturesWithHandlers} onNewRecording={handleNewRecording} onSettings={handleSettings} onChat={handleChat} />;
   }
 
   // Mobile screens
@@ -265,6 +271,9 @@ export default function App() {
     
     case "test-recorder":
       return <TestRecorder onBack={handleBackToHome} />;
+    
+    case "chat":
+      return <ChatScreen onBack={handleBackToHome} />;
     
     default:
       return <HomeScreen

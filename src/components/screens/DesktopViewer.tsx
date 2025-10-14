@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Search, Download, Share2, Filter, ChevronRight, Plus, Settings } from "lucide-react";
+import { Search, Download, Share2, Filter, ChevronRight, Plus, Settings, MessageCircle } from "lucide-react";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
@@ -13,9 +13,10 @@ interface DesktopViewerProps {
   lectures: LectureCardProps[];
   onNewRecording: () => void;
   onSettings: () => void;
+  onChat: () => void;
 }
 
-export function DesktopViewer({ lectures, onNewRecording, onSettings }: DesktopViewerProps) {
+export function DesktopViewer({ lectures, onNewRecording, onSettings, onChat }: DesktopViewerProps) {
   const [selectedLecture, setSelectedLecture] = useState(lectures[0]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -147,13 +148,26 @@ export function DesktopViewer({ lectures, onNewRecording, onSettings }: DesktopV
         </div>
       </div>
 
-      {/* Floating Action Button */}
-      <button
-        onClick={onNewRecording}
-        className="fixed bottom-6 right-6 w-14 h-14 rounded-full bg-[#F5F7FA] text-[#0B0B0C] shadow-lg flex items-center justify-center hover:bg-[#E5E7EB] transition-colors z-50"
-      >
-        <Plus className="w-6 h-6" />
-      </button>
+      {/* Floating Action Buttons */}
+      <div className="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
+        {/* Chatbot Button */}
+        <button
+          onClick={onChat}
+          className="w-14 h-14 rounded-full bg-[#1C1D20] border border-[#2A2C31] text-[#F5F7FA] shadow-lg flex items-center justify-center hover:bg-[#2A2C31] transition-colors"
+          title="AI Assistant"
+        >
+          <MessageCircle className="w-6 h-6" />
+        </button>
+        
+        {/* New Recording Button */}
+        <button
+          onClick={onNewRecording}
+          className="w-14 h-14 rounded-full bg-[#F5F7FA] text-[#0B0B0C] shadow-lg flex items-center justify-center hover:bg-[#E5E7EB] transition-colors"
+          title="New Recording"
+        >
+          <Plus className="w-6 h-6" />
+        </button>
+      </div>
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
