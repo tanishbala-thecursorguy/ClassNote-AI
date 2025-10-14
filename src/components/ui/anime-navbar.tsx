@@ -139,7 +139,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Summary", onNav
                 {isActive && (
                   <motion.div
                     layoutId="anime-mascot"
-                    className="absolute -bottom-12 left-1/2 -translate-x-1/2 pointer-events-none"
+                    className="absolute -top-16 left-1/2 -translate-x-1/2 pointer-events-none"
                     initial={false}
                     transition={{
                       type: "spring",
@@ -147,9 +147,9 @@ export function AnimeNavBar({ items, className, defaultActive = "Summary", onNav
                       damping: 30,
                     }}
                   >
-                    <div className="relative w-12 h-12">
+                    <div className="relative w-16 h-16">
                       <motion.div 
-                        className="absolute w-10 h-10 bg-white rounded-full left-1/2 -translate-x-1/2"
+                        className="absolute w-14 h-14 bg-white rounded-full left-1/2 -translate-x-1/2 border-2 border-gray-300"
                         animate={
                           hoveredTab ? {
                             scale: [1, 1.1, 1],
@@ -169,7 +169,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Summary", onNav
                         }
                       >
                         <motion.div 
-                          className="absolute w-2 h-2 bg-black rounded-full"
+                          className="absolute w-3 h-3 bg-black rounded-full"
                           animate={
                             hoveredTab ? {
                               scaleY: [1, 0.2, 1],
@@ -182,7 +182,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Summary", onNav
                           style={{ left: '25%', top: '40%' }}
                         />
                         <motion.div 
-                          className="absolute w-2 h-2 bg-black rounded-full"
+                          className="absolute w-3 h-3 bg-black rounded-full"
                           animate={
                             hoveredTab ? {
                               scaleY: [1, 0.2, 1],
@@ -195,14 +195,14 @@ export function AnimeNavBar({ items, className, defaultActive = "Summary", onNav
                           style={{ right: '25%', top: '40%' }}
                         />
                         <motion.div 
-                          className="absolute w-2 h-1.5 bg-pink-300 rounded-full"
+                          className="absolute w-3 h-2 bg-pink-300 rounded-full"
                           animate={{
                             opacity: hoveredTab ? 0.8 : 0.6
                           }}
                           style={{ left: '15%', top: '55%' }}
                         />
                         <motion.div 
-                          className="absolute w-2 h-1.5 bg-pink-300 rounded-full"
+                          className="absolute w-3 h-2 bg-pink-300 rounded-full"
                           animate={{
                             opacity: hoveredTab ? 0.8 : 0.6
                           }}
@@ -210,7 +210,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Summary", onNav
                         />
                         
                         <motion.div 
-                          className="absolute w-4 h-2 border-b-2 border-black rounded-full"
+                          className="absolute w-5 h-3 border-b-2 border-black rounded-full"
                           animate={
                             hoveredTab ? {
                               scaleY: 1.5,
@@ -247,7 +247,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Summary", onNav
                         </AnimatePresence>
                       </motion.div>
                       <motion.div
-                        className="absolute -bottom-1 left-1/2 w-4 h-4 -translate-x-1/2"
+                        className="absolute -bottom-1 left-1/2 w-6 h-6 -translate-x-1/2"
                         animate={
                           hoveredTab ? {
                             y: [0, -4, 0],
