@@ -33,12 +33,7 @@ export function DottedSurfaceDemo({ onContinue }: DottedSurfaceDemoProps) {
           <h1 className="font-mono text-4xl font-semibold text-white mb-4">
             Welcome to ClassNotes AI
           </h1>
-          <p className="text-gray-300 text-lg mb-8">
-            Taking you to your dashboard...
-          </p>
-          <div className="animate-pulse">
-            <div className="w-8 h-8 border-4 border-white/30 border-t-white rounded-full mx-auto"></div>
-          </div>
+        </div>
         </div>
       </div>
     </DottedSurface>
