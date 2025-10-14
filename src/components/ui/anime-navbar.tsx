@@ -50,7 +50,7 @@ export function AnimeNavBar({ items, className, defaultActive = "Summary", onNav
     <div className="fixed bottom-0 left-0 right-0 z-[99999]">
       <div className="flex justify-center pb-2">
         <motion.div 
-          className="flex items-center gap-3 bg-black/80 border border-white/20 backdrop-blur-lg py-2 px-2 rounded-full shadow-lg relative"
+          className="flex items-center gap-3 bg-black/90 border-2 border-white/30 backdrop-blur-lg py-3 px-4 rounded-full shadow-2xl relative"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{
