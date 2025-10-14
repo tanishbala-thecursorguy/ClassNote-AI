@@ -85,8 +85,8 @@ export default function App() {
   };
 
   const handleGetStarted = () => {
-    console.log('Get Started clicked - going to login screen');
-    setCurrentScreen({ type: "login" });
+    console.log('Get Started clicked - going directly to DottedSurface');
+    setCurrentScreen({ type: "dotted-surface" });
   };
 
   const handleLogin = () => {
@@ -206,7 +206,7 @@ export default function App() {
       return <IntroAnimationScreen onComplete={handleIntroComplete} />;
     
     case "get-started":
-      return <GetStartedScreen onGetStarted={handleGetStarted} onTestDottedSurface={handleTestDottedSurface} />;
+      return <GetStartedScreen onGetStarted={handleGetStarted} />;
     
     case "login":
       return <OrganizationLoginScreen onBack={handleBackToGetStarted} onLogin={handleLogin} />;

@@ -250,10 +250,9 @@ export function AnomalousMatterHero({
 
 interface GetStartedScreenProps {
   onGetStarted: () => void;
-  onTestDottedSurface?: () => void; // Optional test function
 }
 
-export function GetStartedScreen({ onGetStarted, onTestDottedSurface }: GetStartedScreenProps) {
+export function GetStartedScreen({ onGetStarted }: GetStartedScreenProps) {
   return (
     <div onClick={onGetStarted}>
       <AnomalousMatterHero
@@ -261,30 +260,6 @@ export function GetStartedScreen({ onGetStarted, onTestDottedSurface }: GetStart
         subtitle='"Redefine the way you Study with ClassNotes AI"'
         description="Record. Transcribe. Percept. Stride."
       />
-      {/* Temporary test button */}
-      {onTestDottedSurface && (
-        <button 
-          onClick={(e) => {
-            e.stopPropagation();
-            console.log('Test button clicked - going to DottedSurface');
-            onTestDottedSurface();
-          }}
-          style={{
-            position: 'absolute',
-            top: '20px',
-            right: '20px',
-            background: 'white',
-            color: 'black',
-            padding: '10px',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            zIndex: 1000
-          }}
-        >
-          TEST: Go to DottedSurface
-        </button>
-      )}
     </div>
   );
 }
