@@ -8,6 +8,7 @@ import { DesktopViewer } from "./components/screens/DesktopViewer";
 import { IntroAnimationScreen } from "./components/screens/IntroAnimationScreen";
 import { GetStartedScreen } from "./components/screens/GetStartedScreen";
 import { OrganizationLoginScreen } from "./components/screens/OrganizationLoginScreen";
+import { DottedSurfaceDemo } from "./components/ui/dotted-surface-demo";
 import TestRecorder from "./pages/TestRecorder";
 import type { LectureCardProps } from "./components/classnote/LectureCard";
 import type { TranscriptionResponse } from "./services/api";
@@ -22,6 +23,7 @@ type Screen =
   | { type: "intro-animation" }
   | { type: "get-started" }
   | { type: "login" }
+  | { type: "dotted-surface" }
   | { type: "home" }
   | { type: "record" }
   | { type: "processing"; recordingData: RecordingData }
@@ -84,6 +86,12 @@ export default function App() {
   };
 
   const handleLogin = () => {
+    console.log('Login successful - going to DottedSurface');
+    setCurrentScreen({ type: "dotted-surface" });
+  };
+
+  const handleDottedSurfaceComplete = () => {
+    console.log('DottedSurface completed - going to main app');
     setHasOnboarded(true);
     if (isDesktop) {
       setCurrentScreen({ type: "desktop" });
@@ -193,6 +201,9 @@ export default function App() {
     
     case "login":
       return <OrganizationLoginScreen onBack={handleBackToGetStarted} onLogin={handleLogin} />;
+    
+    case "dotted-surface":
+      return <DottedSurfaceDemo onContinue={handleDottedSurfaceComplete} />;
     
     case "home":
       return (
