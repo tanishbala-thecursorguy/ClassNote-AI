@@ -1,5 +1,50 @@
 
-> ClassNote AI Monochrome Design@0.1.0 dev
+> ClassNotes AI@0.1.0 dev
 > vite
 
-sh: vite: command not found
+
+  VITE v6.3.5  ready in 275 ms
+
+  ➜  Local:   http://localhost:4000/
+  ➜  Network: use --host to expose
+4:35:40 AM [vite] (client) hmr update /src/components/screens/DesktopViewer.tsx
+4:36:45 AM [vite] (client) hmr update /src/components/screens/DesktopViewer.tsx
+4:37:25 AM [vite] (client) hmr update /src/components/screens/DesktopViewer.tsx
+4:37:29 AM [vite] (client) hmr update /src/components/screens/DesktopViewer.tsx
+4:49:19 AM [vite] (client) hmr update /src/components/screens/RecordScreen.tsx
+4:49:24 AM [vite] (client) hmr update /src/components/screens/RecordScreen.tsx
+4:49:47 AM [vite] (client) hmr update /src/components/screens/RecordScreen.tsx
+4:54:36 AM [vite] (client) hmr update /src/components/screens/RecordScreen.tsx
+4:54:50 AM [vite] (client) hmr update /src/components/screens/RecordScreen.tsx
+4:54:54 AM [vite] (client) hmr update /src/components/screens/RecordScreen.tsx
+6:01:00 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+6:01:21 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+6:03:04 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+6:03:07 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+6:04:17 AM [vite] (client) hmr update /src/components/screens/DesktopViewer.tsx
+6:04:26 AM [vite] (client) hmr update /src/components/screens/DesktopViewer.tsx
+6:05:01 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+6:05:01 AM [vite] (client) hmr update /src/components/screens/DesktopViewer.tsx
+10:02:25 AM [vite] (client) hmr update /src/components/screens/RecordScreen.tsx
+10:02:46 AM [vite] (client) hmr update /src/components/screens/RecordScreen.tsx
+10:02:50 AM [vite] (client) hmr update /src/components/screens/RecordScreen.tsx
+10:03:43 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+10:04:10 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+10:06:10 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+10:06:39 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+10:07:31 AM [vite] (client) hmr update /src/components/screens/DesktopViewer.tsx
+10:07:34 AM [vite] (client) hmr update /src/components/screens/DesktopViewer.tsx
+10:07:50 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+10:08:00 AM [vite] (client) hmr update /src/components/screens/DesktopViewer.tsx
+10:08:23 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+10:08:23 AM [vite] (client) hmr update /src/components/screens/DesktopViewer.tsx
+10:08:43 AM [vite] (client) hmr update /src/components/screens/DesktopViewer.tsx
+10:08:54 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+10:11:30 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+10:11:34 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+10:11:44 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+10:12:08 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+10:12:08 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx
+10:19:08 AM [vite] (client) hmr update /src/App.tsx
+10:19:30 AM [vite] (client) hmr update /src/App.tsx
+10:37:11 AM [vite] (client) hmr update /src/components/screens/ProcessingScreen.tsx

@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/Users/tanish/Downloads/ClassNote AI Monochrome Design/backend/main.py", line 4, in <module>
+    from faster_whisper import WhisperModel
+ModuleNotFoundError: No module named 'faster_whisper'

@@ -523,7 +523,7 @@ export async function chatWithAI(
   conversationHistory?: Array<{ role: string; content: string }>
 ): Promise<ChatResponse> {
   // Call OpenRouter directly from frontend for Vercel deployment
-  const CHAT_API_KEY = "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";
+  const CHAT_API_KEY = "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";
   const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
   
   const systemPrompt = `You are a friendly, approachable academic tutor and friend. You help university students with their studies while being warm, conversational, and supportive.

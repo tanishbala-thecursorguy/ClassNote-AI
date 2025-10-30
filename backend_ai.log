@@ -1,0 +1,16 @@
+INFO:__main__:🚀 Starting ClassNote AI - AI Features Server on port 8001
+INFO:__main__:📍 Ollama URL: http://localhost:11434/api/generate
+INFO:__main__:🤖 Model: llama3.1
+INFO:     Started server process [53377]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8001 (Press CTRL+C to quit)
+INFO:     127.0.0.1:62639 - "OPTIONS /notes HTTP/1.1" 200 OK
+INFO:__main__:Attempting notes generation with PRIMARY key...
+ERROR:__main__:OpenRouter API error: 402 - {"error":{"message":"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits","code":402}}
+ERROR:__main__:OpenRouter error: 402: Chat API error: {"error":{"message":"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits","code":402}}
+ERROR:__main__:Primary OpenRouter key failed: 500: Chat processing failed: 402: Chat API error: {"error":{"message":"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits","code":402}}. Trying backup key...
+ERROR:__main__:OpenRouter API error: 402 - {"error":{"message":"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits","code":402}}
+ERROR:__main__:OpenRouter error: 402: Chat API error: {"error":{"message":"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits","code":402}}
+ERROR:__main__:Backup OpenRouter key also failed: 500: Chat processing failed: 402: Chat API error: {"error":{"message":"Insufficient credits. This account never purchased credits. Make sure your key is on the correct account or org, and if so, purchase more at https://openrouter.ai/settings/credits","code":402}}
+INFO:     127.0.0.1:62639 - "POST /notes HTTP/1.1" 500 Internal Server Error
