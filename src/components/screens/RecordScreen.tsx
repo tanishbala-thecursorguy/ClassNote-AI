@@ -61,6 +61,20 @@ export function RecordScreen({ onBack, onComplete }: RecordScreenProps) {
     }
   }, [liveTranscript, interimTranscript]);
 
+  // Request microphone permission automatically on mount
+  useEffect(() => {
+    const requestMicPermission = async () => {
+      try {
+        await navigator.mediaDevices.getUserMedia({ audio: true });
+        console.log("Microphone permission granted");
+      } catch (err) {
+        console.error("Microphone permission denied:", err);
+        setError("Microphone access is required for recording. Please allow microphone permissions.");
+      }
+    };
+    requestMicPermission();
+  }, []);
+
   // Initialize Web Speech API for live transcription
   useEffect(() => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
@@ -189,31 +203,31 @@ export function RecordScreen({ onBack, onComplete }: RecordScreenProps) {
   };
 
   const handleStartRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream, {
-        mimeType: "audio/webm;codecs=opus"
-      });
-      
-      mediaRecorderRef.current = mediaRecorder;
-      audioChunksRef.current = [];
-      
-      mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
-          audioChunksRef.current.push(event.data);
-        }
-      };
-      
-      mediaRecorder.start();
-      setIsRecording(true);
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        const mediaRecorder = new MediaRecorder(stream, {
+          mimeType: "audio/webm;codecs=opus"
+        });
+        
+        mediaRecorderRef.current = mediaRecorder;
+        audioChunksRef.current = [];
+        
+        mediaRecorder.ondataavailable = (event) => {
+          if (event.data.size > 0) {
+            audioChunksRef.current.push(event.data);
+          }
+        };
+        
+        mediaRecorder.start();
+        setIsRecording(true);
       setIsPaused(false);
-      setError(null);
+        setError(null);
       setLiveTranscript("");
       setInterimTranscript("");
-    } catch (err) {
-      console.error("Error accessing microphone:", err);
-      setError("Could not access microphone. Please check permissions.");
-    }
+      } catch (err) {
+        console.error("Error accessing microphone:", err);
+        setError("Could not access microphone. Please check permissions.");
+      }
   };
 
   const handlePauseRecording = () => {
