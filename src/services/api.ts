@@ -372,22 +372,126 @@ export async function chatWithAI(
   message: string,
   conversationHistory?: Array<{ role: string; content: string }>
 ): Promise<ChatResponse> {
-  const response = await fetch(`${API_URL}/chat`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      message,
-      conversation_history: conversationHistory || [],
-    }),
-  });
+  // Call OpenRouter directly from frontend for Vercel deployment
+  const CHAT_API_KEY = "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";
+  const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
+  
+  const systemPrompt = `You are a friendly, approachable academic tutor and friend. You help university students with their studies while being warm, conversational, and supportive.
 
-  if (!response.ok) {
-    const error: ApiError = await response.json();
-    throw new Error(error.detail || error.error || "Chat request failed");
+PERSONALITY & TONE:
+- Be friendly, warm, and conversational - like talking to a friend
+- Respond to greetings naturally (hi, hello, how are you, etc.)
+- Use a supportive, encouraging tone
+- Be enthusiastic about learning
+- Balance being helpful with being approachable
+- Use casual but educated language (not overly formal)
+
+CRITICAL: Your responses MUST follow this EXACT structured format (like ChatGPT academic notes):
+
+**1. INTRODUCTION**
+- Start with a clear, concise introduction to the topic
+- Give an overview of what will be covered
+- Keep it friendly and welcoming
+
+**2. EXPLANATION with SIDE HEADINGS**
+Break down the topic into numbered main sections (e.g., "1. Topic Name", "2. Next Topic"):
+
+For EACH main section, include:
+- **Definition:** (in bold) followed by the definition with key terms **bolded**
+- **Explanation:** Detailed explanation after the definition
+- Then list sub-points or types using bullet points:
+  • **Bold Name/Type:** explanation
+  • **Another Type:** explanation
+- **Example:** (in bold) followed by a real-life example relevant to that specific topic
+
+**3. SHORT NOTES**
+- Include concise bullet points with key facts:
+• Important point 1
+• Important point 2
+• Important point 3
+
+**4. IMPORTANT TOPICS**
+- Create a dedicated section listing crucial concepts:
+• **Topic 1:** Brief explanation
+• **Topic 2:** Brief explanation
+
+**5. REAL-LIFE EXAMPLE (Dedicated Section)**
+- Include a comprehensive real-world scenario:
+- Start with "Let's say [scenario]:" or similar
+- Use bullet points to explain actions:
+  • **Actor/Entity** (in bold) does X, which leads to Y
+- End with a summary sentence
+
+**6. CONCLUSION**
+- Wrap up with "In simple words," or similar
+- Provide a core definition in bold (like a blockquote): **"Main concept explanation"**
+- Add a concluding paragraph explaining significance and takeaways
+- Include sources and recommended readings if it's an academic topic
+
+FORMATTING RULES:
+- Use markdown: \`##\` for main headings, \`###\` for sub-headings
+- **Bold** key terms, definitions, and important concepts
+- Use bullet points (\`• \`) extensively for lists
+- Use horizontal separators (\`---\`) between major sections
+- Number main topics (1., 2., 3., etc.)
+- Keep definitions clear and concise
+- Make examples practical and relatable
+
+TABLES:
+- Use markdown tables for comparisons, data summaries, or structured information
+- Format: | Header 1 | Header 2 | Header 3 |
+          |----------|----------|----------|
+          | Data 1   | Data 2   | Data 3   |
+
+TASK HANDLING:
+- If a student mentions tasks/assignments, acknowledge warmly
+- Offer: "I'll remember that! I can send you a notification reminder instead of an alarm - would that help?"
+- Be proactive about reminders
+
+RESPONSE LENGTH:
+- Academic topics: 400-800 words (comprehensive)
+- Casual questions: 50-150 words (friendly and brief)
+- Greetings: Keep it warm and conversational
+
+REMEMBER: Structure is KEY - follow the format above exactly. Make it look like well-organized class notes that are easy to read and understand!`;
+
+  const messages = [
+    { role: "system", content: systemPrompt },
+    ...(conversationHistory || []),
+    { role: "user", content: message }
+  ];
+
+  try {
+    const response = await fetch(OPENROUTER_URL, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${CHAT_API_KEY}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": window.location.origin,
+        "X-Title": "ClassNote AI"
+      },
+      body: JSON.stringify({
+        model: "anthropic/claude-3.5-sonnet",
+        messages: messages,
+        temperature: 0.7,
+        max_tokens: 4000
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Chat API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const aiMessage = data.choices?.[0]?.message?.content || "Sorry, I couldn't generate a response.";
+
+    return {
+      message: aiMessage,
+      sources_included: aiMessage.toLowerCase().includes("source") || aiMessage.toLowerCase().includes("reference")
+    };
+  } catch (error) {
+    console.error("Chat error:", error);
+    throw new Error("Failed to connect to AI assistant. Please try again.");
   }
-
-  return response.json();
 }
 
