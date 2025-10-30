@@ -197,20 +197,156 @@ export async function transcribeAudioSimple(
 
 /**
  * Generate comprehensive notes + summary + quiz from transcript (app-level API key)
+ * Now calls OpenRouter directly from frontend for Vercel deployment
  */
 export async function generateNotesFromTranscript(transcript: string, topic?: string): Promise<NotesPayload> {
-  const response = await fetch(`${API_URL}/notes`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ transcript, topic }),
-  });
+  const PRIMARY_API_KEY = "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";
+  const BACKUP_API_KEY = "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";
+  const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 
-  if (!response.ok) {
-    const error: ApiError = await response.json();
-    throw new Error(error.detail || error.error || "Notes generation failed");
+  const systemPrompt = `You are an expert academic note generator. Given a lecture transcript, you MUST return a single, valid JSON object with these exact keys:
+{
+  "notes_markdown": (string, strict markdown with ALL sections below),
+  "summary_bullets": (array of 10-20 concise English summary points),
+  "charts_embedded": (boolean, true if any chart JSON is present),
+  "web_links": (array of at least 5 real .edu/.gov/journal URLs),
+  "quiz": (array of EXACTLY 50 unique quiz objects, each with: question, options {A,B,C,D}, answer, explanation)
+}
+
+CRITICAL RULES:
+- ALWAYS return exactly 50 quiz questions, never fewer
+- If transcript lacks 50 distinct points, create additional relevant questions
+- Return ONLY valid JSON, no prose, no extra text
+- Never repeat quiz questions
+
+notes_markdown structure (use markdown):
+## 1. INTRODUCTION
+- Clear overview of topic
+
+## 2. EXPLANATION WITH SIDE HEADINGS
+Break into numbered sections (e.g., "### 2.1 Topic Name"):
+- **Definition:** Clear definition with key terms **bolded**
+- **Explanation:** Detailed explanation
+- Bullet points with examples
+- **Example:** Real-world example
+
+## 3. SHORT NOTES
+- Concise bullet points of key facts
+
+## 4. IMPORTANT TOPICS
+- **Topic 1:** Brief explanation
+- **Topic 2:** Brief explanation
+
+## 5. REAL-LIFE EXAMPLE
+- Comprehensive scenario with bullets
+
+## 6. TABLES
+Use markdown tables for comparisons (| Header 1 | Header 2 |)
+
+## 7. CHARTS
+Include at least one chart as JSON code block:
+\`\`\`json
+{
+  "type": "bar|line|pie",
+  "title": "Chart Title",
+  "data": [{"name": "Label", "value": 100}],
+  "xKey": "name",
+  "yKey": "value"
+}
+\`\`\`
+
+## 8. WEB LINKS
+- List 5-10 high-quality academic URLs
+
+Return ONLY this JSON object, fully filled out.`;
+
+  const userPrompt = `Topic: ${topic || "Lecture"}
+
+Transcript:
+${transcript}
+
+Return a JSON object with keys: notes_markdown, summary_bullets (array of strings), charts_embedded (boolean), web_links (array of url strings), quiz (array of objects with fields: question, options (A-D), answer, explanation).
+Ensure notes_markdown includes tables and chart JSON blocks when relevant.`;
+
+  const messages = [
+    { role: "system", content: systemPrompt },
+    { role: "user", content: userPrompt }
+  ];
+
+  // Try primary key first, fallback to backup
+  let responseText = "";
+  try {
+    console.log("Attempting notes generation with PRIMARY key...");
+    const response = await fetch(OPENROUTER_URL, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${PRIMARY_API_KEY}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": window.location.origin,
+        "X-Title": "ClassNote AI"
+      },
+      body: JSON.stringify({
+        model: "anthropic/claude-3.5-sonnet",
+        messages: messages,
+        temperature: 0.7,
+        max_tokens: 16000
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Primary API key failed: ${response.status}`);
+    }
+
+    const data = await response.json();
+    responseText = data.choices?.[0]?.message?.content || "";
+    console.log("PRIMARY key succeeded for notes generation");
+  } catch (e1) {
+    console.error("Primary key failed, trying backup:", e1);
+    try {
+      const response = await fetch(OPENROUTER_URL, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${BACKUP_API_KEY}`,
+          "Content-Type": "application/json",
+          "HTTP-Referer": window.location.origin,
+          "X-Title": "ClassNote AI"
+        },
+        body: JSON.stringify({
+          model: "anthropic/claude-3.5-sonnet",
+          messages: messages,
+          temperature: 0.7,
+          max_tokens: 16000
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Backup API key also failed: ${response.status}`);
+      }
+
+      const data = await response.json();
+      responseText = data.choices?.[0]?.message?.content || "";
+      console.log("BACKUP key succeeded for notes generation");
+    } catch (e2) {
+      console.error("Both API keys failed:", e2);
+      throw new Error("Both API keys failed for notes generation. Please try again.");
+    }
   }
 
-  return response.json();
+  // Parse JSON response
+  try {
+    const payload = JSON.parse(responseText);
+    console.log(`Notes generated successfully. Quiz count: ${payload.quiz?.length || 0}`);
+    return payload;
+  } catch (parseErr) {
+    console.warn("Failed to parse as JSON, using fallback structure:", parseErr);
+    return {
+      notes_markdown: responseText,
+      summary_bullets: [],
+      charts_embedded: false,
+      web_links: [],
+      quiz: []
+    };
+  }
 }
 
 /**
