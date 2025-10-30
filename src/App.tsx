@@ -37,8 +37,8 @@ type Screen =
   | { type: "quiz" };
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<Screen>({ type: "home" }); // Skip intro, go directly to home
-  const [hasOnboarded, setHasOnboarded] = useState(true); // Mark as onboarded
+  const [currentScreen, setCurrentScreen] = useState<Screen>({ type: "intro-animation" }); // Start with intro
+  const [hasOnboarded, setHasOnboarded] = useState(false); // Require onboarding
   const [isDesktop, setIsDesktop] = useState(false);
   
   // Debug current screen
