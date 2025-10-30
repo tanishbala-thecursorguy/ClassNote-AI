@@ -91,8 +91,13 @@ export function ProcessingScreen({ audioBlob, title, duration, onComplete, onErr
         onComplete(transcription);
       } catch (err) {
         console.error("Processing error:", err);
+        console.error("Error stack:", err instanceof Error ? err.stack : "No stack");
         const errorMessage = err instanceof Error ? err.message : "Failed to process audio";
         setError(errorMessage);
+        
+        // Show detailed error to user
+        alert(`Processing failed: ${errorMessage}\n\nPlease check:\n1. Internet connection\n2. API key is valid\n3. Browser console for details (F12)`);
+        
         if (onError) {
           onError(errorMessage);
         }

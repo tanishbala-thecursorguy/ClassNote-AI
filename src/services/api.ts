@@ -336,9 +336,23 @@ Ensure notes_markdown includes tables and chart JSON blocks when relevant.`;
   try {
     const payload = JSON.parse(responseText);
     console.log(`Notes generated successfully. Quiz count: ${payload.quiz?.length || 0}`);
+    
+    // Validate required fields
+    if (!payload.notes_markdown && !payload.summary_bullets) {
+      console.error("API returned empty response");
+      throw new Error("API returned empty content");
+    }
+    
     return payload;
   } catch (parseErr) {
     console.warn("Failed to parse as JSON, using fallback structure:", parseErr);
+    console.log("Raw response (first 500 chars):", responseText.substring(0, 500));
+    
+    // If response looks like JSON error, throw it
+    if (responseText.includes("error") || responseText.includes("Error")) {
+      throw new Error(`API Error: ${responseText.substring(0, 200)}`);
+    }
+    
     return {
       notes_markdown: responseText,
       summary_bullets: [],
