@@ -200,9 +200,9 @@ export async function transcribeAudioSimple(
  * Now calls OpenRouter directly from frontend for Vercel deployment
  */
 export async function generateNotesFromTranscript(transcript: string, topic?: string): Promise<NotesPayload> {
-  const PRIMARY_API_KEY = "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";
-  const BACKUP_API_KEY = "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";
-  const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
+  // Using Google Gemini - FREE API (no credits needed)
+  const GEMINI_API_KEY = "AIzaSyCXQgCb28Ad3iZmFm60w5boBcqpjVUR_H8";
+  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro-preview-03-25:generateContent?key=${GEMINI_API_KEY}`;
 
   const systemPrompt = `You are an expert academic note generator. Given a lecture transcript, you MUST return a single, valid JSON object with these exact keys:
 {
@@ -260,7 +260,9 @@ Include at least one chart as JSON code block:
 
 Return ONLY this JSON object, fully filled out.`;
 
-  const userPrompt = `Topic: ${topic || "Lecture"}
+  const fullPrompt = `${systemPrompt}
+
+Topic: ${topic || "Lecture"}
 
 Transcript:
 ${transcript}
@@ -268,68 +270,39 @@ ${transcript}
 Return a JSON object with keys: notes_markdown, summary_bullets (array of strings), charts_embedded (boolean), web_links (array of url strings), quiz (array of objects with fields: question, options (A-D), answer, explanation).
 Ensure notes_markdown includes tables and chart JSON blocks when relevant.`;
 
-  const messages = [
-    { role: "system", content: systemPrompt },
-    { role: "user", content: userPrompt }
-  ];
-
-  // Try primary key first, fallback to backup
   let responseText = "";
   try {
-    console.log("Attempting notes generation with PRIMARY key...");
-    const response = await fetch(OPENROUTER_URL, {
+    console.log("Generating notes with Gemini FREE API...");
+    const response = await fetch(GEMINI_URL, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${PRIMARY_API_KEY}`,
-        "Content-Type": "application/json",
-        "HTTP-Referer": window.location.origin,
-        "X-Title": "ClassNote AI"
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "anthropic/claude-3.5-sonnet",
-        messages: messages,
-        temperature: 0.7,
-        max_tokens: 16000
+        contents: [{
+          parts: [{
+            text: fullPrompt
+          }]
+        }],
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 16000
+        }
       })
     });
 
     if (!response.ok) {
-      throw new Error(`Primary API key failed: ${response.status}`);
+      const errorData = await response.json();
+      console.error("Gemini API error:", errorData);
+      throw new Error(`Gemini API failed: ${response.status}`);
     }
 
     const data = await response.json();
-    responseText = data.choices?.[0]?.message?.content || "";
-    console.log("PRIMARY key succeeded for notes generation");
-  } catch (e1) {
-    console.error("Primary key failed, trying backup:", e1);
-    try {
-      const response = await fetch(OPENROUTER_URL, {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${BACKUP_API_KEY}`,
-          "Content-Type": "application/json",
-          "HTTP-Referer": window.location.origin,
-          "X-Title": "ClassNote AI"
-        },
-        body: JSON.stringify({
-          model: "anthropic/claude-3.5-sonnet",
-          messages: messages,
-          temperature: 0.7,
-          max_tokens: 16000
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`Backup API key also failed: ${response.status}`);
-      }
-
-      const data = await response.json();
-      responseText = data.choices?.[0]?.message?.content || "";
-      console.log("BACKUP key succeeded for notes generation");
-    } catch (e2) {
-      console.error("Both API keys failed:", e2);
-      throw new Error("Both API keys failed for notes generation. Please try again.");
-    }
+    responseText = data.candidates?.[0]?.content?.parts?.[0]?.text || "";
+    console.log("Gemini API succeeded for notes generation");
+  } catch (error) {
+    console.error("Gemini API failed:", error);
+    throw new Error("Failed to generate notes. Please try again.");
   }
 
   // Parse JSON response
@@ -522,9 +495,9 @@ export async function chatWithAI(
   message: string,
   conversationHistory?: Array<{ role: string; content: string }>
 ): Promise<ChatResponse> {
-  // Call OpenRouter directly from frontend for Vercel deployment
-  const CHAT_API_KEY = "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";
-  const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
+  // Using Google Gemini - FREE API (no credits needed)
+  const GEMINI_API_KEY = "AIzaSyCXQgCb28Ad3iZmFm60w5boBcqpjVUR_H8";
+  const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
   
   const systemPrompt = `You are a friendly, approachable academic tutor and friend. You help university students with their studies while being warm, conversational, and supportive.
 
@@ -605,35 +578,44 @@ RESPONSE LENGTH:
 
 REMEMBER: Structure is KEY - follow the format above exactly. Make it look like well-organized class notes that are easy to read and understand!`;
 
-  const messages = [
-    { role: "system", content: systemPrompt },
-    ...(conversationHistory || []),
-    { role: "user", content: message }
-  ];
+  // Build conversation context for Gemini
+  let fullPrompt = systemPrompt + "\n\n";
+  if (conversationHistory && conversationHistory.length > 0) {
+    conversationHistory.forEach(msg => {
+      if (msg.role === "user") {
+        fullPrompt += `User: ${msg.content}\n\n`;
+      } else if (msg.role === "assistant") {
+        fullPrompt += `Assistant: ${msg.content}\n\n`;
+      }
+    });
+  }
+  fullPrompt += `User: ${message}\n\nAssistant:`;
 
   try {
-    const response = await fetch(OPENROUTER_URL, {
+    const response = await fetch(GEMINI_URL, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${CHAT_API_KEY}`,
-        "Content-Type": "application/json",
-        "HTTP-Referer": window.location.origin,
-        "X-Title": "ClassNote AI"
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "anthropic/claude-3.5-sonnet",
-        messages: messages,
-        temperature: 0.7,
-        max_tokens: 4000
+        contents: [{
+          parts: [{
+            text: fullPrompt
+          }]
+        }],
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 4000
+        }
       })
     });
 
     if (!response.ok) {
-      throw new Error(`Chat API error: ${response.status}`);
+      throw new Error(`Gemini API error: ${response.status}`);
     }
 
     const data = await response.json();
-    const aiMessage = data.choices?.[0]?.message?.content || "Sorry, I couldn't generate a response.";
+    const aiMessage = data.candidates?.[0]?.content?.parts?.[0]?.text || "Sorry, I couldn't generate a response.";
 
     return {
       message: aiMessage,
