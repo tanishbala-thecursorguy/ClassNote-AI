@@ -57,6 +57,19 @@ export interface QuizResponse {
   title: string;
 }
 
+export interface NotesPayload {
+  notes_markdown: string;
+  summary_bullets: string[];
+  charts_embedded?: boolean;
+  web_links?: string[];
+  quiz?: Array<{
+    question: string;
+    options?: Record<string, string>;
+    answer?: string;
+    explanation?: string;
+  }>;
+}
+
 export interface HealthResponse {
   status: string;
   whisper: {
@@ -177,6 +190,24 @@ export async function transcribeAudioSimple(
   if (!response.ok) {
     const error: ApiError = await response.json();
     throw new Error(error.detail || error.error || "Transcription failed");
+  }
+
+  return response.json();
+}
+
+/**
+ * Generate comprehensive notes + summary + quiz from transcript (app-level API key)
+ */
+export async function generateNotesFromTranscript(transcript: string, topic?: string): Promise<NotesPayload> {
+  const response = await fetch(`${API_URL}/notes`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ transcript, topic }),
+  });
+
+  if (!response.ok) {
+    const error: ApiError = await response.json();
+    throw new Error(error.detail || error.error || "Notes generation failed");
   }
 
   return response.json();
@@ -324,6 +355,37 @@ export async function generateQuiz(
   if (!response.ok) {
     const error: ApiError = await response.json();
     throw new Error(error.detail || error.error || "Quiz generation failed");
+  }
+
+  return response.json();
+}
+
+/**
+ * Chat with the academic AI assistant
+ */
+export interface ChatResponse {
+  message: string;
+  sources_included: boolean;
+}
+
+export async function chatWithAI(
+  message: string,
+  conversationHistory?: Array<{ role: string; content: string }>
+): Promise<ChatResponse> {
+  const response = await fetch(`${API_URL}/chat`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      message,
+      conversation_history: conversationHistory || [],
+    }),
+  });
+
+  if (!response.ok) {
+    const error: ApiError = await response.json();
+    throw new Error(error.detail || error.error || "Chat request failed");
   }
 
   return response.json();

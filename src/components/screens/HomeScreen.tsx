@@ -1,18 +1,20 @@
-import { Search, Plus, Settings, Filter } from "lucide-react";
+import React, { useState } from "react";
+import { Search, Plus, Settings, Filter, MessageCircle, ListChecks } from "lucide-react";
 import { LectureCard, type LectureCardProps } from "../classnote/LectureCard";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { Badge } from "../ui/badge";
-import { useState } from "react";
 
 interface HomeScreenProps {
   lectures: LectureCardProps[];
   onNewRecording: () => void;
   onSelectLecture: (id: string) => void;
   onSettings: () => void;
+  onChat: () => void;
+  onQuiz?: () => void;
 }
 
-export function HomeScreen({ lectures, onNewRecording, onSelectLecture, onSettings }: HomeScreenProps) {
+export function HomeScreen({ lectures, onNewRecording, onSelectLecture, onSettings, onChat, onQuiz }: HomeScreenProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState<string | null>(null);
 
@@ -31,9 +33,19 @@ export function HomeScreen({ lectures, onNewRecording, onSelectLecture, onSettin
       <div className="bg-[#121315] border-b border-[#2A2C31] px-6 py-4">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-[#F5F7FA]">My Lectures</h1>
-          <button onClick={onSettings} className="p-2 hover:bg-[#2A2C31] rounded-lg transition-colors">
-            <Settings className="w-5 h-5 text-[#F5F7FA]" />
-          </button>
+          <div className="flex items-center gap-2">
+            {onQuiz && (
+              <button onClick={onQuiz} className="p-2 hover:bg-[#2A2C31] rounded-lg transition-colors" title="Quiz">
+                <ListChecks className="w-5 h-5 text-[#F5F7FA]" />
+              </button>
+            )}
+            <button onClick={onChat} className="p-2 hover:bg-[#2A2C31] rounded-lg transition-colors" title="AI Chat Assistant">
+              <MessageCircle className="w-5 h-5 text-[#F5F7FA]" />
+            </button>
+            <button onClick={onSettings} className="p-2 hover:bg-[#2A2C31] rounded-lg transition-colors">
+              <Settings className="w-5 h-5 text-[#F5F7FA]" />
+            </button>
+          </div>
         </div>
         
         {/* Search */}

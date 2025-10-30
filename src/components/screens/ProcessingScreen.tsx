@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ProgressStepper } from "../classnote/ProgressStepper";
-import { transcribeAudio, type TranscriptionResponse } from "../../services/api";
+import { transcribeAudio, type TranscriptionResponse, generateNotesFromTranscript, type NotesPayload } from "../../services/api";
 
 interface ProcessingScreenProps {
   audioBlob: Blob;
@@ -16,7 +16,7 @@ export function ProcessingScreen({ audioBlob, title, duration, onComplete, onErr
   const [error, setError] = useState<string | null>(null);
 
   const stepLabels = [
-    "Uploading audio",
+    "Preparing transcript",
     "Transcribing lecture",
     "Analyzing content",
     "Generating summary",
@@ -27,26 +27,59 @@ export function ProcessingScreen({ audioBlob, title, duration, onComplete, onErr
   useEffect(() => {
     const processAudio = async () => {
       try {
-        // Step 1: Uploading
+        // Step 1: Preparing transcript
         setCurrentStep(0);
+
+        let transcriptText = localStorage.getItem("liveTranscript") || "";
+        let transcription: TranscriptionResponse;
+
+        if (transcriptText && transcriptText.trim().length > 0) {
+          // Use live transcript directly (AI-only backend path)
+          transcription = {
+            text: transcriptText.trim(),
+            paragraphs: [],
+            segments: [],
+            metadata: { language: "en", language_probability: 1, duration: 0 },
+          } as unknown as TranscriptionResponse;
+          setCurrentStep(1); // advance from transcribing step
+        } else {
+          // Fallback to audio transcription (if backend supports it)
+          // Step 2: Transcribing (with progress)
+          transcription = await transcribeAudio(audioBlob, (progress) => {
+            setUploadProgress(progress);
+            if (progress === 100 && currentStep === 0) {
+              setCurrentStep(1);
+            }
+          });
+        }
         
-        // Step 2: Transcribing (with progress)
-        const transcription = await transcribeAudio(audioBlob, (progress) => {
-          setUploadProgress(progress);
-          if (progress === 100 && currentStep === 0) {
-            setCurrentStep(1);
-          }
-        });
-        
-        // Step 3-5: Simulated processing steps for UI feedback
+        // Step 3: Analyzing content -> Generate notes from transcript using app-level API
         setCurrentStep(2);
-        await new Promise(resolve => setTimeout(resolve, 800));
+        console.log("Generating notes from transcript:", transcription.text.substring(0, 100) + "...");
+        const notes: NotesPayload = await generateNotesFromTranscript(transcription.text, title);
+        console.log("Notes generated successfully:", {
+          hasSummary: notes.summary_bullets?.length || 0,
+          hasNotes: notes.notes_markdown?.length || 0,
+          quizCount: notes.quiz?.length || 0
+        });
+
+        // Store complete data in localStorage
+        try {
+          localStorage.setItem("lastNotes", JSON.stringify(notes));
+          localStorage.setItem("lastTranscript", transcription.text);
+          console.log("Stored notes and transcript in localStorage");
+        } catch (err) {
+          console.error("Failed to store in localStorage:", err);
+        }
+
+        // Attach notes to transcription object for downstream screens
+        (transcription as any).notes = notes;
         
+        // Steps 4-5 visual
         setCurrentStep(3);
-        await new Promise(resolve => setTimeout(resolve, 800));
-        
+        await new Promise(resolve => setTimeout(resolve, 500));
         setCurrentStep(4);
-        await new Promise(resolve => setTimeout(resolve, 800));
+        await new Promise(resolve => setTimeout(resolve, 500));
         
         setCurrentStep(5);
         await new Promise(resolve => setTimeout(resolve, 500));

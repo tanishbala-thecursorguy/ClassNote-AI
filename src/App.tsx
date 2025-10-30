@@ -6,6 +6,7 @@ import { SessionDetailScreen } from "./components/screens/SessionDetailScreen";
 import { SettingsScreen } from "./components/screens/SettingsScreen";
 import { DesktopViewer } from "./components/screens/DesktopViewer";
 import { ChatScreen } from "./components/screens/ChatScreen";
+import QuizScreen from "./components/screens/QuizScreen";
 import { IntroAnimationScreen } from "./components/screens/IntroAnimationScreen";
 import { GetStartedScreen } from "./components/screens/GetStartedScreen";
 import { OrganizationLoginScreen } from "./components/screens/OrganizationLoginScreen";
@@ -32,11 +33,12 @@ type Screen =
   | { type: "settings" }
   | { type: "desktop" }
   | { type: "test-recorder" }
-  | { type: "chat" };
+  | { type: "chat" }
+  | { type: "quiz" };
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<Screen>({ type: "intro-animation" }); // Start with intro animation
-  const [hasOnboarded, setHasOnboarded] = useState(false);
+  const [currentScreen, setCurrentScreen] = useState<Screen>({ type: "home" }); // Skip intro, go directly to home
+  const [hasOnboarded, setHasOnboarded] = useState(true); // Mark as onboarded
   const [isDesktop, setIsDesktop] = useState(false);
   
   // Debug current screen
@@ -195,6 +197,10 @@ export default function App() {
     setCurrentScreen({ type: "chat" });
   };
 
+  const handleQuiz = () => {
+    setCurrentScreen({ type: "quiz" });
+  };
+
   // Update lectures with onClick handlers
   const lecturesWithHandlers = lectures.map(lecture => ({
     ...lecture,
@@ -227,6 +233,8 @@ export default function App() {
           onNewRecording={handleNewRecording}
           onSelectLecture={handleSelectLecture}
           onSettings={handleSettings}
+          onChat={handleChat}
+          onQuiz={handleQuiz}
         />
       );
     
@@ -275,12 +283,16 @@ export default function App() {
     case "chat":
       return <ChatScreen onBack={handleBackToHome} />;
     
+    case "quiz":
+      return <QuizScreen onBack={handleBackToHome} />;
+    
     default:
       return <HomeScreen
         lectures={lecturesWithHandlers}
         onNewRecording={handleNewRecording}
         onSelectLecture={handleSelectLecture}
         onSettings={handleSettings}
+        onChat={handleChat}
       />;
   }
 }
