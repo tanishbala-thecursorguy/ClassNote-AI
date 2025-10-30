@@ -200,8 +200,8 @@ export async function transcribeAudioSimple(
  * Now calls OpenRouter directly from frontend for Vercel deployment
  */
 export async function generateNotesFromTranscript(transcript: string, topic?: string): Promise<NotesPayload> {
-  const PRIMARY_API_KEY = "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";
-  const BACKUP_API_KEY = "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";
+  const PRIMARY_API_KEY = "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";
+  const BACKUP_API_KEY = "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";
   const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 
   const systemPrompt = `You are an expert academic note generator. Given a lecture transcript, you MUST return a single, valid JSON object with these exact keys:
@@ -523,7 +523,7 @@ export async function chatWithAI(
   conversationHistory?: Array<{ role: string; content: string }>
 ): Promise<ChatResponse> {
   // Call OpenRouter directly from frontend for Vercel deployment
-  const CHAT_API_KEY = "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";
+  const CHAT_API_KEY = "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";
   const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
   
   const systemPrompt = `You are a friendly, approachable academic tutor and friend. You help university students with their studies while being warm, conversational, and supportive.
