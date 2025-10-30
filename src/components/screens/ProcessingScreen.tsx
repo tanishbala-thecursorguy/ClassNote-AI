@@ -68,6 +68,9 @@ export function ProcessingScreen({ audioBlob, title, duration, onComplete, onErr
           localStorage.setItem("lastNotes", JSON.stringify(notes));
           localStorage.setItem("lastTranscript", transcription.text);
           console.log("Stored notes and transcript in localStorage");
+          
+          // Dispatch custom event to notify other components
+          window.dispatchEvent(new CustomEvent('notesUpdated', { detail: { notes, transcript: transcription.text } }));
         } catch (err) {
           console.error("Failed to store in localStorage:", err);
         }

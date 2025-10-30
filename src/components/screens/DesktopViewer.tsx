@@ -43,36 +43,56 @@ export function DesktopViewer({ lectures, onNewRecording, onSettings, onChat }: 
     setActiveTab(screenName);
   };
 
-  // Load data from localStorage whenever lecture changes
+  // Load data from localStorage whenever lecture changes or periodically check for updates
   useEffect(() => {
-    console.log("Loading data for lecture:", selectedLecture?.title);
-    try {
-      const raw = localStorage.getItem("lastNotes");
-      if (raw) {
-        const parsed = JSON.parse(raw);
-        console.log("Loaded notes data:", {
-          hasSummary: parsed.summary_bullets?.length || 0,
-          hasNotes: parsed.notes_markdown?.length || 0,
-          quizCount: parsed.quiz?.length || 0
-        });
-        setNotesMarkdown(parsed.notes_markdown || "");
-        setSummaryBullets(parsed.summary_bullets || []);
-        setQuiz(Array.isArray(parsed.quiz) ? parsed.quiz : []);
-      } else {
-        console.warn("No lastNotes found in localStorage");
+    const loadData = () => {
+      console.log("Loading data for lecture:", selectedLecture?.title);
+      try {
+        const raw = localStorage.getItem("lastNotes");
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          console.log("Loaded notes data:", {
+            hasSummary: parsed.summary_bullets?.length || 0,
+            hasNotes: parsed.notes_markdown?.length || 0,
+            quizCount: parsed.quiz?.length || 0
+          });
+          setNotesMarkdown(parsed.notes_markdown || "");
+          setSummaryBullets(parsed.summary_bullets || []);
+          setQuiz(Array.isArray(parsed.quiz) ? parsed.quiz : []);
+        } else {
+          console.warn("No lastNotes found in localStorage");
+        }
+      } catch (err) {
+        console.error("Error loading notes:", err);
       }
-    } catch (err) {
-      console.error("Error loading notes:", err);
-    }
-    
-    try {
-      // Try both keys for transcript
-      let transcriptRaw = localStorage.getItem("lastTranscript") || localStorage.getItem("liveTranscript");
-      console.log("Loaded transcript length:", transcriptRaw?.length || 0);
-      setTranscript(transcriptRaw || "");
-    } catch (err) {
-      console.error("Error loading transcript:", err);
-    }
+      
+      try {
+        // Try both keys for transcript
+        let transcriptRaw = localStorage.getItem("lastTranscript") || localStorage.getItem("liveTranscript");
+        console.log("Loaded transcript length:", transcriptRaw?.length || 0);
+        setTranscript(transcriptRaw || "");
+      } catch (err) {
+        console.error("Error loading transcript:", err);
+      }
+    };
+
+    // Load immediately
+    loadData();
+
+    // Listen for notes updates from processing
+    const handleNotesUpdate = () => {
+      console.log("Notes updated event received, reloading...");
+      loadData();
+    };
+    window.addEventListener('notesUpdated', handleNotesUpdate);
+
+    // Also check for updates every 2 seconds
+    const interval = setInterval(loadData, 2000);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('notesUpdated', handleNotesUpdate);
+    };
   }, [selectedLecture]);
 
   const statusColors = {
