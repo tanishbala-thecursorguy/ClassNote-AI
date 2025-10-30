@@ -200,8 +200,8 @@ export async function transcribeAudioSimple(
  * Now calls OpenRouter directly from frontend for Vercel deployment
  */
 export async function generateNotesFromTranscript(transcript: string, topic?: string): Promise<NotesPayload> {
-  const PRIMARY_API_KEY = "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";
-  const BACKUP_API_KEY = "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";
+  const PRIMARY_API_KEY = "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";
+  const BACKUP_API_KEY = "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";
   const OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions";
 
   const systemPrompt = `You are an expert academic note generator. Given a lecture transcript, you MUST return a single, valid JSON object with these exact keys:
